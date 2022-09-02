@@ -20,25 +20,33 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"ssj1314.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="书中自有颜如玉">
-<meta property="og:type" content="website">
-<meta property="og:title" content="葫芦小金刚">
-<meta property="og:url" content="https://ssj1314.github.io/index.html">
+    <meta name="description" content="highlight: a11y-dark一、Swift中的类型Swfit中重要的两种类型 ：类类型 、结构体类型 结构体和类相同点：  定义存储值的属性 定义方法 定义下标及下标语法提供对其值的访问 定义初始化器 使用extension来拓展功能 遵循协议来提供某种功能结构体和类不同点： 类有继承的特性，而结构体没有 类型转换使我们能在运行时检查和解释实例的类型 类有析构函数来释放其分配的资源">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift第一节课结构体">
+<meta property="og:url" content="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%BB%93%E6%9E%84%E4%BD%93/index.html">
 <meta property="og:site_name" content="葫芦小金刚">
-<meta property="og:description" content="书中自有颜如玉">
+<meta property="og:description" content="highlight: a11y-dark一、Swift中的类型Swfit中重要的两种类型 ：类类型 、结构体类型 结构体和类相同点：  定义存储值的属性 定义方法 定义下标及下标语法提供对其值的访问 定义初始化器 使用extension来拓展功能 遵循协议来提供某种功能结构体和类不同点： 类有继承的特性，而结构体没有 类型转换使我们能在运行时检查和解释实例的类型 类有析构函数来释放其分配的资源">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/21b647805389408e839f7c58a717a733~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/09ef978df92148418b3d1608ed016c88~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f8c1385531404205a83562359f6a3e2f~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/87defffca10340599e195425be0bd72a~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bf393a7324b74b2595f7c5981c2df45a~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2022-09-02T00:53:26.000Z">
+<meta property="article:modified_time" content="2022-09-02T00:54:01.095Z">
 <meta property="article:author" content="ssj">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/21b647805389408e839f7c58a717a733~tplv-k3u1fbpfcp-watermark.image">
 
 
-<link rel="canonical" href="https://ssj1314.github.io/">
+<link rel="canonical" href="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%BB%93%E6%9E%84%E4%BD%93/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%BB%93%E6%9E%84%E4%BD%93/","path":"2022/09/02/Swift第一节课结构体/","title":"Swift第一节课结构体"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>葫芦小金刚</title>
+<title>Swift第一节课结构体 | 葫芦小金刚</title>
   
 
 
@@ -67,7 +75,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">葫芦小金刚</h1>
+      <p class="site-title">葫芦小金刚</p>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">宋帅杰</p>
@@ -96,7 +104,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -109,6 +117,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#highlight-a11y-dark"><span class="nav-number">1.</span> <span class="nav-text">highlight: a11y-dark</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81Swift%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number"></span> <span class="nav-text">一、Swift中的类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tips%EF%BC%9A%E5%86%85%E5%AD%98%E5%8C%BA%E5%9F%9F"><span class="nav-number"></span> <span class="nav-text">Tips：内存区域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BB%93%E6%9E%84%E4%BD%93-struct"><span class="nav-number">0.1.</span> <span class="nav-text">1. 结构体 struct</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E7%B1%BB-class"><span class="nav-number">0.2.</span> <span class="nav-text">2、类 class</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%A0%86%E7%A9%BA%E9%97%B4%E7%94%B3%E8%AF%B7%E8%BF%87%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">对象的堆空间申请过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">类的初始化器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Swift%E4%B8%AD%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B"><span class="nav-number"></span> <span class="nav-text">二、Swift中编译流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-swift%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E6%B5%81%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">1.swift代码编译流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%91%BD%E4%BB%A4"><span class="nav-number">1.1.</span> <span class="nav-text">编译命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E6%88%90-sil-%E4%BB%A3%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text">将代码编译成 sil 代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%87%E7%BC%96%E6%8E%A2%E7%B4%A2%E5%88%9D%E5%A7%8B%E5%8C%96%E6%B5%81%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">汇编探索初始化流程</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -150,16 +159,17 @@
 </noscript>
 
 
-    <div class="main-inner index posts-expand">
+    <div class="main-inner post posts-expand">
 
-    
+
+  
 
 
 <div class="post-block">
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
     <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%BB%93%E6%9E%84%E4%BD%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -173,13 +183,13 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 葫芦小金刚">
+      <meta itemprop="name" content="Swift第一节课结构体 | 葫芦小金刚">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%BB%93%E6%9E%84%E4%BD%93/" class="post-title-link" itemprop="url">Swift第一节课结构体</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          Swift第一节课结构体
+        </h1>
 
         <div class="post-meta-container">
           <div class="post-meta">
@@ -203,7 +213,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <hr>
+        <hr>
 <h2 id="highlight-a11y-dark"><a href="#highlight-a11y-dark" class="headerlink" title="highlight: a11y-dark"></a>highlight: a11y-dark</h2><h1 id="一、Swift中的类型"><a href="#一、Swift中的类型" class="headerlink" title="一、Swift中的类型"></a>一、Swift中的类型</h1><p>Swfit中重要的两种类型 ：<strong>类类型</strong> 、<strong>结构体类型</strong></p>
 <p>结构体和类相同点：</p>
 <ol>
@@ -291,7 +301,6 @@
 <figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">void <span class="operator">*</span>swift::swift_slowAlloc(size_t size, size_t alignMask) {</span><br><span class="line">void <span class="operator">*</span>p;</span><br><span class="line"><span class="comment">// This check also forces "default" alignment to use AlignedAlloc.</span></span><br><span class="line"><span class="keyword">if</span> (alignMask <span class="operator">&lt;=</span> <span class="type">MALLOC_ALIGN_MASK</span>) {</span><br><span class="line"><span class="keyword">#if</span> defined(__APPLE__)</span><br><span class="line"> p <span class="operator">=</span> malloc_zone_malloc(<span class="type">DEFAULT_ZONE</span>(), size);</span><br><span class="line"><span class="keyword">#else</span></span><br><span class="line"> p <span class="operator">=</span> malloc(size);</span><br><span class="line"><span class="keyword">#endif</span></span><br><span class="line">} <span class="keyword">else</span> {</span><br><span class="line"> size_t alignment <span class="operator">=</span> (alignMask <span class="operator">==</span> <span class="operator">~</span>(size_t(<span class="number">0</span>)))</span><br><span class="line">                        <span class="operator">?</span> _swift_MinAllocationAlignment</span><br><span class="line">                        : alignMask <span class="operator">+</span> <span class="number">1</span>;</span><br><span class="line"> p <span class="operator">=</span> <span class="type">AlignedAlloc</span>(size, alignment);</span><br><span class="line">}</span><br><span class="line"><span class="keyword">if</span> (<span class="operator">!</span>p) swift::crash(<span class="string">"Could not allocate memory."</span>);</span><br><span class="line"><span class="keyword">return</span> p;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 <p><code>swift_slowAlloc</code>&nbsp;函数的内部是去进行一些分配内存的操作，比如&nbsp;<code>malloc</code>。所以就印证了类对象实例引用类型-&gt;对象申请堆空间的过程。</p>
 
-      
     </div>
 
     
@@ -299,424 +308,22 @@
     
 
     <footer class="post-footer">
-        <div class="post-eof"></div>
-      
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/31/test-blog/" rel="prev" title="markdown语法吃灰录">
+                  <i class="fa fa-chevron-left"></i> markdown语法吃灰录
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
     </footer>
   </article>
 </div>
 
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/08/31/test-blog/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ssj">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="葫芦小金刚">
-      <meta itemprop="description" content="书中自有颜如玉">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 葫芦小金刚">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/31/test-blog/" class="post-title-link" itemprop="url">markdown语法吃灰录</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2022-08-31 11:04:13 / Modified: 16:44:22" itemprop="dateCreated datePublished" datetime="2022-08-31T11:04:13+08:00">2022-08-31</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="主要特性"><a href="#主要特性" class="headerlink" title="主要特性"></a>主要特性</h3><ul>
-<li>支持“标准”Markdown / CommonMark和Github风格的语法，也可变身为代码编辑器；</li>
-<li>支持实时预览、图片（跨域）上传、预格式文本/代码/表格插入、代码折叠、搜索替换、只读模式、自定义样式主题和多语言语法高亮等功能；</li>
-<li>支持ToC（Table of Contents）、Emoji表情、Task lists、@链接等Markdown扩展语法；</li>
-<li>支持TeX科学公式（基于KaTeX）、流程图 Flowchart 和 时序图 Sequence Diagram;</li>
-<li>支持识别和解析HTML标签，并且支持自定义过滤标签解析，具有可靠的安全性和几乎无限的扩展性；</li>
-<li>支持 AMD / CMD 模块化加载（支持 Require.js &amp; Sea.js），并且支持自定义扩展插件；</li>
-<li>兼容主流的浏览器（IE8+）和Zepto.js，且支持iPad等平板设备；</li>
-<li>支持自定义主题样式；</li>
-</ul>
-<h1 id="Editor-md"><a href="#Editor-md" class="headerlink" title="Editor.md"></a>Editor.md</h1><p><img src="https://pandao.github.io/editor.md/images/logos/editormd-logo-180x180.png"></p>
-<p><img src="https://img.shields.io/github/stars/pandao/editor.md.svg"> <img src="https://img.shields.io/github/forks/pandao/editor.md.svg"> <img src="https://img.shields.io/github/tag/pandao/editor.md.svg"> <img src="https://img.shields.io/github/release/pandao/editor.md.svg"> <img src="https://img.shields.io/github/issues/pandao/editor.md.svg"> <img src="https://img.shields.io/bower/v/editor.md.svg"></p>
-<p><strong>目录 (Table of Contents)</strong></p>
-<p>[TOCM]</p>
-<p>[TOC]</p>
-<h1 id="Heading-1"><a href="#Heading-1" class="headerlink" title="Heading 1"></a>Heading 1</h1><h2 id="Heading-2"><a href="#Heading-2" class="headerlink" title="Heading 2"></a>Heading 2</h2><h3 id="Heading-3"><a href="#Heading-3" class="headerlink" title="Heading 3"></a>Heading 3</h3><h4 id="Heading-4"><a href="#Heading-4" class="headerlink" title="Heading 4"></a>Heading 4</h4><h5 id="Heading-5"><a href="#Heading-5" class="headerlink" title="Heading 5"></a>Heading 5</h5><h6 id="Heading-6"><a href="#Heading-6" class="headerlink" title="Heading 6"></a>Heading 6</h6><h1 id="Heading-1-link-Heading-link"><a href="#Heading-1-link-Heading-link" class="headerlink" title="Heading 1 link Heading link"></a>Heading 1 link <a target="_blank" rel="noopener" href="https://github.com/pandao/editor.md" title="Heading link">Heading link</a></h1><h2 id="Heading-2-link-Heading-link"><a href="#Heading-2-link-Heading-link" class="headerlink" title="Heading 2 link Heading link"></a>Heading 2 link <a target="_blank" rel="noopener" href="https://github.com/pandao/editor.md" title="Heading link">Heading link</a></h2><h3 id="Heading-3-link-Heading-link"><a href="#Heading-3-link-Heading-link" class="headerlink" title="Heading 3 link Heading link"></a>Heading 3 link <a target="_blank" rel="noopener" href="https://github.com/pandao/editor.md" title="Heading link">Heading link</a></h3><h4 id="Heading-4-link-Heading-link-Heading-link-Heading-link"><a href="#Heading-4-link-Heading-link-Heading-link-Heading-link" class="headerlink" title="Heading 4 link Heading link Heading link Heading link"></a>Heading 4 link <a target="_blank" rel="noopener" href="https://github.com/pandao/editor.md" title="Heading link">Heading link</a> Heading link <a target="_blank" rel="noopener" href="https://github.com/pandao/editor.md" title="Heading link">Heading link</a></h4><h5 id="Heading-5-link-Heading-link"><a href="#Heading-5-link-Heading-link" class="headerlink" title="Heading 5 link Heading link"></a>Heading 5 link <a target="_blank" rel="noopener" href="https://github.com/pandao/editor.md" title="Heading link">Heading link</a></h5><h6 id="Heading-6-link-Heading-link"><a href="#Heading-6-link-Heading-link" class="headerlink" title="Heading 6 link Heading link"></a>Heading 6 link <a target="_blank" rel="noopener" href="https://github.com/pandao/editor.md" title="Heading link">Heading link</a></h6><h4 id="标题（用底线的形式）Heading-underline"><a href="#标题（用底线的形式）Heading-underline" class="headerlink" title="标题（用底线的形式）Heading (underline)"></a>标题（用底线的形式）Heading (underline)</h4><h1 id="This-is-an-H1"><a href="#This-is-an-H1" class="headerlink" title="This is an H1"></a>This is an H1</h1><h2 id="This-is-an-H2"><a href="#This-is-an-H2" class="headerlink" title="This is an H2"></a>This is an H2</h2><h3 id="字符效果和横线等"><a href="#字符效果和横线等" class="headerlink" title="字符效果和横线等"></a>字符效果和横线等</h3><hr>
-<p><del>删除线</del> <s>删除线（开启识别HTML标签时）</s><br><em>斜体字</em>      <em>斜体字</em><br><strong>粗体</strong>  <strong>粗体</strong><br><em><strong>粗斜体</strong></em> <em><strong>粗斜体</strong></em></p>
-<p>上标：X<sub>2</sub>，下标：O<sup>2</sup></p>
-<p><strong>缩写(同HTML的abbr标签)</strong></p>
-<blockquote>
-<p>即更长的单词或短语的缩写形式，前提是开启识别HTML标签时，已默认开启</p>
-</blockquote>
-<p>The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.</p>
-<h3 id="引用-Blockquotes"><a href="#引用-Blockquotes" class="headerlink" title="引用 Blockquotes"></a>引用 Blockquotes</h3><blockquote>
-<p>引用文本 Blockquotes</p>
-</blockquote>
-<p>引用的行内混合 Blockquotes</p>
-<blockquote>
-<p>引用：如果想要插入空白换行<code>即&lt;br /&gt;标签</code>，在插入处先键入两个以上的空格然后回车即可，<a target="_blank" rel="noopener" href="http://localhost/">普通链接</a>。</p>
-</blockquote>
-<h3 id="锚点与链接-Links"><a href="#锚点与链接-Links" class="headerlink" title="锚点与链接 Links"></a>锚点与链接 Links</h3><p><a target="_blank" rel="noopener" href="http://localhost/">普通链接</a></p>
-<p><a target="_blank" rel="noopener" href="http://localhost/" title="普通链接带标题">普通链接带标题</a></p>
-<p>直接链接：<a target="_blank" rel="noopener" href="https://github.com/">https://github.com</a></p>
-<p><a target="_blank" rel="noopener" href="http://www.this-anchor-link.com/">锚点链接</a> </p>
-<p>GFM a-tail link @pandao</p>
-<blockquote>
-<p>@pandao</p>
-</blockquote>
-<h3 id="多语言代码高亮-Codes"><a href="#多语言代码高亮-Codes" class="headerlink" title="多语言代码高亮 Codes"></a>多语言代码高亮 Codes</h3><h4 id="行内代码-Inline-code"><a href="#行内代码-Inline-code" class="headerlink" title="行内代码 Inline code"></a>行内代码 Inline code</h4><p>执行命令：<code>npm install marked</code></p>
-<h4 id="缩进风格"><a href="#缩进风格" class="headerlink" title="缩进风格"></a>缩进风格</h4><p>即缩进四个空格，也做为实现类似<code>&lt;pre&gt;</code>预格式化文本(Preformatted Text)的功能。</p>
-<pre><code>&lt;?php
-    echo "Hello world!";
-?&gt;
-</code></pre>
-<p>预格式化文本：</p>
-<pre><code>| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
-</code></pre>
-<h4 id="JS代码"><a href="#JS代码" class="headerlink" title="JS代码"></a>JS代码</h4><figure class="highlight javascript"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>){</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">"Hello world!"</span>);</span><br><span class="line">}</span><br><span class="line"> </span><br><span class="line">(<span class="keyword">function</span>(<span class="params"></span>){</span><br><span class="line">    <span class="keyword">var</span> box = <span class="keyword">function</span>(<span class="params"></span>){</span><br><span class="line">        <span class="keyword">return</span> box.<span class="property">fn</span>.<span class="title function_">init</span>();</span><br><span class="line">    };</span><br><span class="line"></span><br><span class="line">    box.<span class="property"><span class="keyword">prototype</span></span> = box.<span class="property">fn</span> = {</span><br><span class="line">        init : <span class="keyword">function</span>(<span class="params"></span>){</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">'box.init()'</span>);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">        },</span><br><span class="line"></span><br><span class="line">		add : <span class="keyword">function</span>(<span class="params">str</span>){</span><br><span class="line">			<span class="title function_">alert</span>(<span class="string">"add"</span>, str);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">		},</span><br><span class="line"></span><br><span class="line">		remove : <span class="keyword">function</span>(<span class="params">str</span>){</span><br><span class="line">			<span class="title function_">alert</span>(<span class="string">"remove"</span>, str);</span><br><span class="line"></span><br><span class="line">			<span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">		}</span><br><span class="line">    };</span><br><span class="line">    </span><br><span class="line">    box.<span class="property">fn</span>.<span class="property">init</span>.<span class="property"><span class="keyword">prototype</span></span> = box.<span class="property">fn</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">box</span> =box;</span><br><span class="line">})();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> testBox = <span class="title function_">box</span>();</span><br><span class="line">testBox.<span class="title function_">add</span>(<span class="string">"jQuery"</span>).<span class="title function_">remove</span>(<span class="string">"jQuery"</span>);</span><br></pre></td></tr></tbody></table></figure>
-
-<h4 id="HTML代码-HTML-codes"><a href="#HTML代码-HTML-codes" class="headerlink" title="HTML代码 HTML codes"></a>HTML代码 HTML codes</h4><figure class="highlight html"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mate</span> <span class="attr">charest</span>=<span class="string">"utf-8"</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hello world!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></tbody></table></figure>
-
-<h3 id="图片-Images"><a href="#图片-Images" class="headerlink" title="图片 Images"></a>图片 Images</h3><p>Image:</p>
-<p><img src="https://pandao.github.io/editor.md/examples/images/4.jpg"></p>
-<blockquote>
-<p>Follow your heart.</p>
-</blockquote>
-<p><img src="https://pandao.github.io/editor.md/examples/images/8.jpg"></p>
-<blockquote>
-<p>图为：厦门白城沙滩</p>
-</blockquote>
-<p>图片加链接 (Image + Link)：</p>
-<p><a target="_blank" rel="noopener" href="https://pandao.github.io/editor.md/examples/images/7.jpg" title="李健首张专辑《似水流年》封面"><img src="https://pandao.github.io/editor.md/examples/images/7.jpg"></a></p>
-<blockquote>
-<p>图为：李健首张专辑《似水流年》封面</p>
-</blockquote>
-<hr>
-<h3 id="列表-Lists"><a href="#列表-Lists" class="headerlink" title="列表 Lists"></a>列表 Lists</h3><h4 id="无序列表（减号）Unordered-Lists"><a href="#无序列表（减号）Unordered-Lists" class="headerlink" title="无序列表（减号）Unordered Lists (-)"></a>无序列表（减号）Unordered Lists (-)</h4><ul>
-<li>列表一</li>
-<li>列表二</li>
-<li>列表三</li>
-</ul>
-<h4 id="无序列表（星号）Unordered-Lists"><a href="#无序列表（星号）Unordered-Lists" class="headerlink" title="无序列表（星号）Unordered Lists (*)"></a>无序列表（星号）Unordered Lists (*)</h4><ul>
-<li>列表一</li>
-<li>列表二</li>
-<li>列表三</li>
-</ul>
-<h4 id="无序列表（加号和嵌套）Unordered-Lists"><a href="#无序列表（加号和嵌套）Unordered-Lists" class="headerlink" title="无序列表（加号和嵌套）Unordered Lists (+)"></a>无序列表（加号和嵌套）Unordered Lists (+)</h4><ul>
-<li>列表一</li>
-<li>列表二<ul>
-<li>列表二-1</li>
-<li>列表二-2</li>
-<li>列表二-3</li>
-</ul>
-</li>
-<li>列表三<ul>
-<li>列表一</li>
-<li>列表二</li>
-<li>列表三</li>
-</ul>
-</li>
-</ul>
-<h4 id="有序列表-Ordered-Lists"><a href="#有序列表-Ordered-Lists" class="headerlink" title="有序列表 Ordered Lists (-)"></a>有序列表 Ordered Lists (-)</h4><ol>
-<li>第一行</li>
-<li>第二行</li>
-<li>第三行</li>
-</ol>
-<h4 id="GFM-task-list"><a href="#GFM-task-list" class="headerlink" title="GFM task list"></a>GFM task list</h4><ul>
-<li><input checked="" disabled="" type="checkbox"> GFM task list 1</li>
-<li><input checked="" disabled="" type="checkbox"> GFM task list 2</li>
-<li><input disabled="" type="checkbox"> GFM task list 3<ul>
-<li><input disabled="" type="checkbox"> GFM task list 3-1</li>
-<li><input disabled="" type="checkbox"> GFM task list 3-2</li>
-<li><input disabled="" type="checkbox"> GFM task list 3-3</li>
-</ul>
-</li>
-<li><input disabled="" type="checkbox"> GFM task list 4<ul>
-<li><input disabled="" type="checkbox"> GFM task list 4-1</li>
-<li><input disabled="" type="checkbox"> GFM task list 4-2</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="绘制表格-Tables"><a href="#绘制表格-Tables" class="headerlink" title="绘制表格 Tables"></a>绘制表格 Tables</h3><table>
-<thead>
-<tr>
-<th>项目</th>
-<th align="right">价格</th>
-<th align="center">数量</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>计算机</td>
-<td align="right">$1600</td>
-<td align="center">5</td>
-</tr>
-<tr>
-<td>手机</td>
-<td align="right">$12</td>
-<td align="center">12</td>
-</tr>
-<tr>
-<td>管线</td>
-<td align="right">$1</td>
-<td align="center">234</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>First Header</th>
-<th>Second Header</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Content Cell</td>
-<td>Content Cell</td>
-</tr>
-<tr>
-<td>Content Cell</td>
-<td>Content Cell</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>First Header</th>
-<th>Second Header</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Content Cell</td>
-<td>Content Cell</td>
-</tr>
-<tr>
-<td>Content Cell</td>
-<td>Content Cell</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>Function name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>help()</code></td>
-<td>Display the help window.</td>
-</tr>
-<tr>
-<td><code>destroy()</code></td>
-<td><strong>Destroy your computer!</strong></td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th align="left">Left-Aligned</th>
-<th align="center">Center Aligned</th>
-<th align="right">Right Aligned</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">col 3 is</td>
-<td align="center">some wordy text</td>
-<td align="right">$1600</td>
-</tr>
-<tr>
-<td align="left">col 2 is</td>
-<td align="center">centered</td>
-<td align="right">$12</td>
-</tr>
-<tr>
-<td align="left">zebra stripes</td>
-<td align="center">are neat</td>
-<td align="right">$1</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>Item</th>
-<th align="right">Value</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Computer</td>
-<td align="right">$1600</td>
-</tr>
-<tr>
-<td>Phone</td>
-<td align="right">$12</td>
-</tr>
-<tr>
-<td>Pipe</td>
-<td align="right">$1</td>
-</tr>
-</tbody></table>
-<hr>
-<h4 id="特殊符号-HTML-Entities-Codes"><a href="#特殊符号-HTML-Entities-Codes" class="headerlink" title="特殊符号 HTML Entities Codes"></a>特殊符号 HTML Entities Codes</h4><p>&amp;copy; &amp;  &amp;uml; &amp;trade; &amp;iexcl; &amp;pound;<br>&amp; &lt; &gt; &amp;yen; &amp;euro; &amp;reg; &amp;plusmn; &amp;para; &amp;sect; &amp;brvbar; &amp;macr; &amp;laquo; &amp;middot; </p>
-<p>X&amp;sup2; Y&amp;sup3; &amp;frac34; &amp;frac14;  &amp;times;  &amp;divide;   &amp;raquo;</p>
-<p>18&amp;ordm;C  "  &amp;apos;</p>
-<h3 id="Emoji表情-smiley"><a href="#Emoji表情-smiley" class="headerlink" title="Emoji表情 :smiley:"></a>Emoji表情 <span class="github-emoji"><span>😃</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></h3><blockquote>
-<p>Blockquotes <span class="github-emoji"><span>⭐</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/2b50.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
-</blockquote>
-<h4 id="GFM-task-lists-amp-Emoji-amp-fontAwesome-icon-emoji-amp-editormd-logo-emoji-editormd-logo-5x"><a href="#GFM-task-lists-amp-Emoji-amp-fontAwesome-icon-emoji-amp-editormd-logo-emoji-editormd-logo-5x" class="headerlink" title="GFM task lists &amp; Emoji &amp; fontAwesome icon emoji &amp; editormd logo emoji :editormd-logo-5x:"></a>GFM task lists &amp; Emoji &amp; fontAwesome icon emoji &amp; editormd logo emoji :editormd-logo-5x:</h4><ul>
-<li><input checked="" disabled="" type="checkbox"> <span class="github-emoji"><span>😃</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> @mentions, <span class="github-emoji"><span>😃</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> #refs, <a href="">links</a>, <strong>formatting</strong>, and <del>tags</del> supported :editormd-logo:;</li>
-<li><input checked="" disabled="" type="checkbox"> list syntax required (any unordered or ordered list supported) :editormd-logo-3x:;</li>
-<li><input checked="" disabled="" type="checkbox"> [ ] <span class="github-emoji"><span>😃</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> this is a complete item <span class="github-emoji"><span>😃</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>;</li>
-<li><input disabled="" type="checkbox"> []this is an incomplete item <a href="#">test link</a> :fa-star: @pandao; </li>
-<li><input disabled="" type="checkbox"> [ ]this is an incomplete item :fa-star: :fa-gear:;<ul>
-<li><input disabled="" type="checkbox"> <span class="github-emoji"><span>😃</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> this is an incomplete item <a href="#">test link</a> :fa-star: :fa-gear:;</li>
-<li><input disabled="" type="checkbox"> <span class="github-emoji"><span>😃</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f603.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> this is  :fa-star: :fa-gear: an incomplete item <a href="#">test link</a>;</li>
-</ul>
-</li>
-</ul>
-<h4 id="反斜杠-Escape"><a href="#反斜杠-Escape" class="headerlink" title="反斜杠 Escape"></a>反斜杠 Escape</h4><p>*literal asterisks*</p>
-<h3 id="科学公式-TeX-KaTeX"><a href="#科学公式-TeX-KaTeX" class="headerlink" title="科学公式 TeX(KaTeX)"></a>科学公式 TeX(KaTeX)</h3><p>$$E=mc^2$$</p>
-<p>行内的公式$$E=mc^2$$行内的公式，行内的$$E=mc^2$$公式。</p>
-<p>$$(\sqrt{3x-1}+(1+x)^2)$$</p>
-<p>$$\sin(\alpha)^{\theta}=\sum_{i=0}^{n}(x^i + \cos(f))$$</p>
-<p>多行公式：</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">\displaystyle</span><br><span class="line">\left( \sum\_{k=1}^n a\_k b\_k \right)^2</span><br><span class="line">\leq</span><br><span class="line">\left( \sum\_{k=1}^n a\_k^2 \right)</span><br><span class="line">\left( \sum\_{k=1}^n b\_k^2 \right)</span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">\displaystyle </span><br><span class="line">    \frac{1}{</span><br><span class="line">        \Bigl(\sqrt{\phi \sqrt{5}}-\phi\Bigr) e^{</span><br><span class="line">        \frac25 \pi}} = 1+\frac{e^{-2\pi}} {1+\frac{e^{-4\pi}} {</span><br><span class="line">        1+\frac{e^{-6\pi}}</span><br><span class="line">        {1+\frac{e^{-8\pi}}</span><br><span class="line">         {1+\cdots} }</span><br><span class="line">        } </span><br><span class="line">    }</span><br></pre></td></tr></tbody></table></figure>
-
-<figure class="highlight latex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f(x) = <span class="keyword">\int</span><span class="built_in">_</span>{-<span class="keyword">\infty</span>}<span class="built_in">^</span><span class="keyword">\infty</span></span><br><span class="line">    <span class="keyword">\hat</span> f(<span class="keyword">\xi</span>)<span class="keyword">\,</span>e<span class="built_in">^</span>{2 <span class="keyword">\pi</span> i <span class="keyword">\xi</span> x}</span><br><span class="line">    <span class="keyword">\,</span>d<span class="keyword">\xi</span></span><br></pre></td></tr></tbody></table></figure>
-<h3 id="绘制流程图-Flowchart"><a href="#绘制流程图-Flowchart" class="headerlink" title="绘制流程图 Flowchart"></a>绘制流程图 Flowchart</h3><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: 用户登陆</span><br><span class="line">op=&gt;operation: 登陆操作</span><br><span class="line">cond=&gt;condition: 登陆成功 Yes or No?</span><br><span class="line">e=&gt;end: 进入后台</span><br><span class="line"></span><br><span class="line">st-&gt;op-&gt;cond</span><br><span class="line">cond(yes)-&gt;e</span><br><span class="line">cond(no)-&gt;op</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="绘制序列图-Sequence-Diagram"><a href="#绘制序列图-Sequence-Diagram" class="headerlink" title="绘制序列图 Sequence Diagram"></a>绘制序列图 Sequence Diagram</h3><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Andrew-&gt;China: Says Hello </span><br><span class="line">Note right of China: China thinks\nabout it </span><br><span class="line">China--&gt;Andrew: How are you? </span><br><span class="line">Andrew-&gt;&gt;China: I am good thanks!</span><br></pre></td></tr></tbody></table></figure>
-
-<h3 id="End"><a href="#End" class="headerlink" title="End"></a>End</h3>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/08/31/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ssj">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="葫芦小金刚">
-      <meta itemprop="description" content="书中自有颜如玉">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 葫芦小金刚">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/08/31/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2022-08-31 10:58:36" itemprop="dateCreated datePublished" datetime="2022-08-31T10:58:36+08:00">2022-08-31</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></tbody></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></tbody></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></tbody></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></tbody></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
 
 
 
