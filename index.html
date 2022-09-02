@@ -121,7 +121,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -160,7 +160,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%BB%93%E6%9E%84%E4%BD%93/">
+    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%932/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -178,7 +178,142 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%BB%93%E6%9E%84%E4%BD%93/" class="post-title-link" itemprop="url">Swift第一节课结构体</a>
+          <a href="/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%932/" class="post-title-link" itemprop="url">Swift第一节课类与结构体2</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2022-09-02 09:03:44 / Modified: 09:04:18" itemprop="dateCreated datePublished" datetime="2022-09-02T09:03:44+08:00">2022-09-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <hr>
+<h2 id="highlight-a11y-dark"><a href="#highlight-a11y-dark" class="headerlink" title="highlight: a11y-dark"></a>highlight: a11y-dark</h2><h1 id="一、异变方法"><a href="#一、异变方法" class="headerlink" title="一、异变方法"></a>一、异变方法</h1><p>第一天我们了解到，Swift 中 class 和 struct 都能定义方法。但是有一点区别的是，默认情况下，值类型属性不能被自身的实例方法修改。</p>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> {</span><br><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">0.0</span>, y <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">moveBy</span>(<span class="params">x</span> <span class="params">deltaX</span>: <span class="type">Double</span>, <span class="params">y</span> <span class="params">deltaY</span>: <span class="type">Double</span>) {</span><br><span class="line"></span><br><span class="line"><span class="comment">//self</span></span><br><span class="line">x <span class="operator">+=</span> deltaX</span><br><span class="line">y <span class="operator">+=</span> deltaY</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>通过 SIL 来对比一下，不添加 mutating 访问和添加 mutating 两者有什么本质的区别</p>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> {</span><br><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">0.0</span>, y <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>(){</span><br><span class="line"><span class="keyword">let</span> tmp <span class="operator">=</span> <span class="keyword">self</span>.x</span><br><span class="line">}</span><br><span class="line"><span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">moveBy</span>(<span class="params">x</span> <span class="params">deltaX</span>: <span class="type">Double</span>, <span class="params">y</span> <span class="params">deltaY</span>: <span class="type">Double</span>) { </span><br><span class="line">    x <span class="operator">+=</span> deltaX</span><br><span class="line">    y <span class="operator">+=</span> deltaY</span><br><span class="line">   }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>sil hidden [ossa] @$s4main5PointV4testyyF : $@convention(method) (Point) -&gt;<br>这是普通的<br>debug_value %0 : $Point, let, name “self”, argno 1 // id: %1</p>
+<p>sil hidden [ossa] @$s4main5PointV6moveBy1x1yySd_SdtF : $@convention(method)<br>这是加了mutating的<br>@inout Point<br>加了mutating的关键字多了一个 @inout关键字</p>
+</blockquote>
+<p>SIL 文档的解释</p>
+<p><code>An @inout parameter is indirect. The address must be of an initialized object.</code>（当前参数类型是间接的，传递的是已经初始化过的地址）</p>
+<p>异变方法的本质：对于变异方法, 传入的 self 被标记为 inout 参数。无论在 mutating 方法内部发生什么，都会影响外部依赖类型的一切。其实就是告诉外面，你拿的是我的根or源头，可以直接操作我。</p>
+<p><strong>输入输出参数</strong>：如果我们想函数能够修改一个形式参数的值，而且希望这些改变在函数结束之后依然生效，那么就需要将形式参数定义为 输入输出形式参数 。在形式参数定义开始的时候在前边添加一个 <code>inout</code>键字可以定义一个输入输出形式参数</p>
+<h1 id="二、方法调度"><a href="#二、方法调度" class="headerlink" title="二、方法调度"></a>二、方法调度</h1><p>//oc里是objc_mgsend</p>
+<p>我们先来看一下 Swift 中的方法调度</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LGTeacher</span>{ func <span class="title function_">teach</span>(<span class="params"></span>){</span><br><span class="line"></span><br><span class="line"><span class="title function_">print</span>(<span class="string">"teach"</span>) }</span><br><span class="line"></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> t = <span class="title class_">LGTeacher</span>() </span><br><span class="line">t.<span class="title function_">teach</span>()</span><br></pre></td></tr></tbody></table></figure>
+<p>teach函数的调用过程：找到 Metadata ，确定函数地址（metadata + 偏移量）， 执行函数基于函数表的调度之前我们在第一节课讲到了 Metdata 的数据结构，那么 V-Table 是存放在什么地方那？</p>
+<p>我们先来回顾一下当前的数据结构</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">struct <span class="title class_">Metadata</span>{</span><br><span class="line"><span class="keyword">var</span> <span class="attr">kind</span>: <span class="title class_">Int</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">superClass</span>: <span class="title class_">Any</span>.<span class="property">Type</span> <span class="keyword">var</span> <span class="attr">cacheData</span>: (<span class="title class_">Int</span>, <span class="title class_">Int</span>) <span class="keyword">var</span> <span class="attr">data</span>: <span class="title class_">Int</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">classFlags</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">instanceAddressPoint</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">instanceSize</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">instanceAlignmentMask</span>: <span class="title class_">UInt16</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">reserved</span>: <span class="title class_">UInt16</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">classSize</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">classAddressPoint</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">typeDescriptor</span>: <span class="title class_">UnsafeMutableRawPointer</span> <span class="keyword">var</span> <span class="attr">iVarDestroyer</span>: <span class="title class_">UnsafeRawPointer</span></span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里我们有一个东西需要关注 <code>typeDescriptor</code> ，不管是 Class ， Struct , Enum 都有自己的 Descriptor ，就是对类的一个详细描述</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">struct <span class="title class_">TargetClassDescriptor</span>{ <span class="keyword">var</span> <span class="attr">flags</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">parent</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">name</span>: <span class="title class_">Int32</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="attr">accessFunctionPointer</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">fieldDescriptor</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">superClassType</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">metadataNegativeSizeInWords</span>: <span class="title class_">UInt32</span> <span class="keyword">var</span> <span class="attr">metadataPositiveSizeInWords</span>: <span class="title class_">UInt32</span> <span class="keyword">var</span> <span class="attr">numImmediateMembers</span>: <span class="title class_">UInt32</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="attr">numFields</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">fieldOffsetVectorOffset</span>: <span class="title class_">UInt32</span> <span class="keyword">var</span> <span class="title class_">Offset</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">size</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="comment">//V-Table</span></span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="Mahco-Mach-O-其实是Mach-Object文件格式的缩写，是-mac-以及-iOS-上可执行文件的格式，-类似于-windows-上的-PE-格式-Portable-Executable-linux-上的-elf-格式-Executableand-Linking-Format-。常见的-o，-a-dylib-Framework，dyld-dsym。"><a href="#Mahco-Mach-O-其实是Mach-Object文件格式的缩写，是-mac-以及-iOS-上可执行文件的格式，-类似于-windows-上的-PE-格式-Portable-Executable-linux-上的-elf-格式-Executableand-Linking-Format-。常见的-o，-a-dylib-Framework，dyld-dsym。" class="headerlink" title="Mahco: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .dylib Framework，dyld .dsym。"></a><strong>Mahco</strong>: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .dylib Framework，dyld .dsym。</h3><p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/55d2443580c04b64b80683d6a9a4cfb5~tplv-k3u1fbpfcp-watermark.image" alt="WeChat2f0d6f00f519c9d2bb4d574053fd6aa3.png"></p>
+<p><strong>Mahoc文件格式：首先是文件头，表明该文件是 Mach-O 格式，指定目标架构，还有一些其他的文件属性信<br>息，文件头信息影响后续的文件结构安排 Load commands是一张包含很多内容的表。内容包括区域的位置、符号表、动态符号表等。</strong></p>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">LC_SEGMENT_64</span> 将文件中（<span class="number">32</span>位或<span class="number">64</span>位）的段映射到进程地址空间中</span><br><span class="line"><span class="type">LC_DYLD_INFO_ONLY</span> 动态链接相关信息</span><br><span class="line"></span><br><span class="line"><span class="type">LC_SYMTAB</span> 符号地址</span><br><span class="line"></span><br><span class="line"><span class="type">LC_DYSYMTAB</span> 动态符号表地址</span><br><span class="line"></span><br><span class="line"><span class="type">LC_LOAD_DYLINKER</span> dyld加载</span><br><span class="line"></span><br><span class="line"><span class="type">LC_UUID</span> 文件的<span class="type">UUID</span></span><br><span class="line"></span><br><span class="line"><span class="type">LC_VERSION_MIN_MACOSX</span> 支持最低的操作系统版本</span><br><span class="line"></span><br><span class="line"><span class="type">LC_SOURCE_VERSION</span> 源代码版本</span><br><span class="line"></span><br><span class="line"><span class="type">LC_MAIN</span> 设置程序主线程的入口地址和栈大小</span><br><span class="line"></span><br><span class="line"><span class="type">LC_LOAD_DYLIB</span> 依赖库的路径，包含三方库</span><br><span class="line"></span><br><span class="line"><span class="type">LC_FUNCTION_STARTS</span> 函数起始地址表</span><br><span class="line"></span><br><span class="line"><span class="type">LC_CODE_SIGNATURE</span> 代码签名</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>Data 区主要就是负责代码和数据记录的。Mach-O 是以 Segment 这种结构来组织数据的，一个 Segment 可以包含 0 个或多个 Section。根据 Segment 是映射的哪一个 LoadCommand，Segment 中 section 就可以被解读为是是代码，常量或者一些其他的数据类型。在装载在内存中时，也是根据 Segment 做内存映射的。</li>
+</ul>
+<p><strong>方法调度方式总结：</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>调度方式</th>
+<th>extension</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>值类型</td>
+<td>静态派发</td>
+<td>静态派发</td>
+</tr>
+<tr>
+<td>类类型</td>
+<td>函数表派发</td>
+<td>静态派发</td>
+</tr>
+<tr>
+<td>NSobject子类</td>
+<td>函数表派发</td>
+<td>静态派发</td>
+</tr>
+</tbody></table>
+<h1 id="三、影响函数派发方式"><a href="#三、影响函数派发方式" class="headerlink" title="三、影响函数派发方式"></a>三、影响函数派发方式</h1><ul>
+<li><p>final： 添加了 final 关键字的函数无法被重写，使用静态派发，不会在 vtable 中出现，且 对 objc 运行时不可见。</p>
+</li>
+<li><p>dynamic: 函数均可添加 dynamic 关键字，为非objc类和值类型的函数赋予动态性，但派发方式还是函数表派发。</p>
+</li>
+<li><p>@objc： 该关键字可以将Swift函数暴露给Objc运行时，依旧是函数表派发。</p>
+</li>
+<li><p>@objc + dynamic： 消息派发的方式</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%931/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ssj">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="葫芦小金刚">
+      <meta itemprop="description" content="书中自有颜如玉">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 葫芦小金刚">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%931/" class="post-title-link" itemprop="url">Swift第一节课结构体</a>
         </h2>
 
         <div class="post-meta-container">
