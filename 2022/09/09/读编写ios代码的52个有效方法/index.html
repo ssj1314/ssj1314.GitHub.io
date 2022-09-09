@@ -20,15 +20,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"ssj1314.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="看了一两个月了，今天写一下总结:这本书在总体上描述了iOS开发中所需要注意的规范化写法，例如驼峰，三字母前缀了等等，而且对日常开发可能遇到的问题做了一些简明扼要的解释，虽然不多但够有个大概的了解。[TOC]##第一章、熟悉Objective-C，通论该语言的核心概念####1、在类的头文件中尽量少引用其他的头文件##第二章、对象、消息、运行期对象之间能够关联和交互，这是面向对象语言的重要特证。本章">
+    <meta name="description" content="看了一两个月了，今天写一下总结:这本书在总体上描述了iOS开发中所需要注意的规范化写法，例如驼峰，三字母前缀了等等，而且对日常开发可能遇到的问题做了一些简明扼要的解释，虽然不多但够有个大概的了解。[TOC]##第一章、熟悉Objective-C，通论该语言的核心概念####1、在类的头文件中尽量少引用其他的头文件####2. 多用字面量语法，少用与之等价的方法为什么？缩减源代码长度，更为易读。##">
 <meta property="og:type" content="article">
 <meta property="og:title" content="读编写ios代码的52个有效方法">
 <meta property="og:url" content="https://ssj1314.github.io/2022/09/09/%E8%AF%BB%E7%BC%96%E5%86%99ios%E4%BB%A3%E7%A0%81%E7%9A%8452%E4%B8%AA%E6%9C%89%E6%95%88%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="葫芦小金刚">
-<meta property="og:description" content="看了一两个月了，今天写一下总结:这本书在总体上描述了iOS开发中所需要注意的规范化写法，例如驼峰，三字母前缀了等等，而且对日常开发可能遇到的问题做了一些简明扼要的解释，虽然不多但够有个大概的了解。[TOC]##第一章、熟悉Objective-C，通论该语言的核心概念####1、在类的头文件中尽量少引用其他的头文件##第二章、对象、消息、运行期对象之间能够关联和交互，这是面向对象语言的重要特证。本章">
+<meta property="og:description" content="看了一两个月了，今天写一下总结:这本书在总体上描述了iOS开发中所需要注意的规范化写法，例如驼峰，三字母前缀了等等，而且对日常开发可能遇到的问题做了一些简明扼要的解释，虽然不多但够有个大概的了解。[TOC]##第一章、熟悉Objective-C，通论该语言的核心概念####1、在类的头文件中尽量少引用其他的头文件####2. 多用字面量语法，少用与之等价的方法为什么？缩减源代码长度，更为易读。##">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-09-09T02:34:53.000Z">
-<meta property="article:modified_time" content="2022-09-09T06:16:09.576Z">
+<meta property="article:modified_time" content="2022-09-09T07:15:08.163Z">
 <meta property="article:author" content="大福禄">
 <meta name="twitter:card" content="summary">
 
@@ -193,7 +193,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-09-09 10:34:53 / 修改时间：14:16:09" itemprop="dateCreated datePublished" datetime="2022-09-09T10:34:53+08:00">2022-09-09</time>
+      <time title="创建时间：2022-09-09 10:34:53 / 修改时间：15:15:08" itemprop="dateCreated datePublished" datetime="2022-09-09T10:34:53+08:00">2022-09-09</time>
     </span>
 
   
@@ -206,7 +206,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>看了一两个月了，今天写一下总结:<br>这本书在总体上描述了iOS开发中所需要注意的规范化写法，例如驼峰，三字母前缀了等等，而且对日常开发可能遇到的问题做了一些简明扼要的解释，虽然不多但够有个大概的了解。<br>[TOC]<br>##第一章、熟悉Objective-C，通论该语言的核心概念<br>####1、在类的头文件中尽量少引用其他的头文件<br>##第二章、对象、消息、运行期<br><code>对象之间能够关联和交互，这是面向对象语言的重要特证。本章深入研究代码在运行期的行为（开玩笑，只是简单说说，还是得去看源码）</code><br>##第三章、接口与API设计<br><code>甚少有那种写完就不再复用 的代码。即使代码不向别人公开，也依然有可能在自己的项目中使用</code><br>##第四章、协议与分类<br>##第五章、内存管理<br>##第六章、Block块与大中枢派发<br><code>block语法类似C语言扩展中的闭包（closure）</code><br>##第七章、系统框架</p>
+        <p>看了一两个月了，今天写一下总结:<br>这本书在总体上描述了iOS开发中所需要注意的规范化写法，例如驼峰，三字母前缀了等等，而且对日常开发可能遇到的问题做了一些简明扼要的解释，虽然不多但够有个大概的了解。<br>[TOC]<br>##第一章、熟悉Objective-C，通论该语言的核心概念<br>####1、在类的头文件中尽量少引用其他的头文件<br>####2. 多用字面量语法，少用与之等价的方法<br>为什么？<br>缩减源代码长度，更为易读。<br>##第二章、对象、消息、运行期<br><code>对象之间能够关联和交互，这是面向对象语言的重要特证。本章深入研究代码在运行期的行为（开玩笑，只是简单说说，还是得去看源码）</code><br>##第三章、接口与API设计<br><code>甚少有那种写完就不再复用 的代码。即使代码不向别人公开，也依然有可能在自己的项目中使用</code><br>##第四章、协议与分类<br>##第五章、内存管理<br>##第六章、Block块与大中枢派发<br><code>block语法类似C语言扩展中的闭包（closure)</code></p>
+<p>##第七章、系统框架</p>
 
     </div>
 
