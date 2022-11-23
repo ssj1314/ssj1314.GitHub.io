@@ -20,17 +20,23 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"ssj1314.github.io","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="书中自有颜如玉">
+    <meta name="description" content="#先放demo 地址  https:&#x2F;&#x2F;github.com&#x2F;ssj1314&#x2F;iOS-VLC-RTSP-  github 库太大，我传不上去。在网盘下载framework之后添加就行了。哪位大神教我一下。###百度网盘也能先凑活一下了。新的链接里面有framework库: https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1bQJshOx1JRpjadxS-BO6ag 提取码: vs8e 基友dem">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ios之使用RTSP流做监控或直播视频">
 <meta property="og:url" content="https://ssj1314.github.io/2022/11/23/ios%E4%B9%8B%E4%BD%BF%E7%94%A8RTSP%E6%B5%81%E5%81%9A%E7%9B%91%E6%8E%A7%E6%88%96%E7%9B%B4%E6%92%AD%E8%A7%86%E9%A2%91/index.html">
 <meta property="og:site_name" content="葫芦小金刚">
-<meta property="og:description" content="书中自有颜如玉">
+<meta property="og:description" content="#先放demo 地址  https:&#x2F;&#x2F;github.com&#x2F;ssj1314&#x2F;iOS-VLC-RTSP-  github 库太大，我传不上去。在网盘下载framework之后添加就行了。哪位大神教我一下。###百度网盘也能先凑活一下了。新的链接里面有framework库: https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1bQJshOx1JRpjadxS-BO6ag 提取码: vs8e 基友dem">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1761100-ceb93b8e704cd91a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1761100-3ca1153dfb85b558.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1761100-6fe5c89244b68e6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1761100-a4582d074b315b3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1761100-25e2c10313385653.gif?imageMogr2/auto-orient/strip">
 <meta property="article:published_time" content="2022-11-23T05:44:35.000Z">
-<meta property="article:modified_time" content="2022-11-23T05:44:36.012Z">
+<meta property="article:modified_time" content="2022-11-23T05:45:45.723Z">
 <meta property="article:author" content="大福禄">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1761100-ceb93b8e704cd91a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 <link rel="canonical" href="https://ssj1314.github.io/2022/11/23/ios%E4%B9%8B%E4%BD%BF%E7%94%A8RTSP%E6%B5%81%E5%81%9A%E7%9B%91%E6%8E%A7%E6%88%96%E7%9B%B4%E6%92%AD%E8%A7%86%E9%A2%91/">
@@ -98,7 +104,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -111,6 +117,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-VLC-%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">1.VLC 介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-%E5%85%B7%E4%BD%93%E7%94%A8%E6%B3%95"><span class="nav-number">1.0.1.</span> <span class="nav-text">4.具体用法</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -123,7 +130,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -193,7 +200,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-11-23 13:44:35 / 修改时间：13:44:36" itemprop="dateCreated datePublished" datetime="2022-11-23T13:44:35+08:00">2022-11-23</time>
+      <time title="创建时间：2022-11-23 13:44:35 / 修改时间：13:45:45" itemprop="dateCreated datePublished" datetime="2022-11-23T13:44:35+08:00">2022-11-23</time>
     </span>
 
   
@@ -206,7 +213,42 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        
+        <p>#先放demo 地址<br>  <a target="_blank" rel="noopener" href="https://github.com/ssj1314/iOS-VLC-RTSP-">https://github.com/ssj1314/iOS-VLC-RTSP-</a><br>  github 库太大，我传不上去。在网盘下载framework之后添加就行了。哪位大神教我一下。<br>###百度网盘也能先凑活一下了。新的链接里面有framework库: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1bQJshOx1JRpjadxS-BO6ag">https://pan.baidu.com/s/1bQJshOx1JRpjadxS-BO6ag</a> 提取码: vs8e</p>
+<p>基友demo2 抽出来的小项目 把库抽出来了不然太大，可以把库直接放进去使用。<br>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1hrETkAo">https://pan.baidu.com/s/1hrETkAo</a> 密码: 5u6k</p>
+<h3 id="1-VLC-介绍"><a href="#1-VLC-介绍" class="headerlink" title="1.VLC 介绍"></a>1.VLC 介绍</h3><p><a target="_blank" rel="noopener" href="http://www.videolan.org/vlc/">VLC</a> 是什么？(借的，这个比较全)</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://code.videolan.org/videolan/VLCKit.git">VLC</a>&nbsp;VLC媒体播放器（VideoLAN的）为Windows，Linux和OS X，Android版，iOS版的Windows Phone等平台提供一个视频播放器，解码器，它可以播放来自网络，摄像头，磁盘，光驱的文件，支持包括MPEG 1 / 2/4，H264，VC-1，DivX的，WMV，Vorbis格式，AC3，AAC等格式的解码。在windows和linux上的VLC是使用C ++ / Qt的写成，提供了一致的用户体验。同时VLC还专门为OS X提供了原生版本，Mac OS X版的VLC的用户界面使用可可框架编写，在OS X下拥有卓越的原生体验。</p>
+</blockquote>
+<ul>
+<li>VLC还有一个非常好的功能 - 播放那些没有下载完整的视频文件。</li>
+<li>VLC几乎覆盖所有媒体格式。</li>
+</ul>
+<p>PS:   以前也没做过，最近公司要做一个关于火车摄像头的App，没办法，找轮子吧，先找了ijkplayer，听说还是比较好使的，但由于在实现过程中经历了很多曲折，编译老失败，无奈之下，在一篇文章评论区看到这个VLC，然后就开始了研究，找了几篇文章之后，竟然成功了。哈哈 感觉好开心，大概折腾了两天，中间头疼过好多次，不过最终还是成功了，记录一下，聊作慰藉，也给后来用的人一个前车之鉴，<br>希望能有用。come on baby ！！！</p>
+<p>####2.怎么下载使用<br>这是一款强大的全平台播放器, 几乎支持所有的音频、视频格式文件播放, 官网地址:<a target="_blank" rel="noopener" href="http://www.videolan.org/">http://www.videolan.org/</a></p>
+<ul>
+<li>在iOS 中也可以集成 VLC 的 SDK 进行开发, 使用之前需要先去官网下载 SDK, 然后编译成 iOS 中使用的库文件才能使用, 这种集成方法在编译的过程中需要 VPN 翻墙进行联网编译, 如果网速不好或者不稳定, 很容易编译出错, 如果网速好, 可以按照 wiki 的说明去编译: [<a target="_blank" rel="noopener" href="https://wiki.videolan.org/iOSCompile]">https://wiki.videolan.org/iOSCompile]</a></li>
+<li>第二种方式，不用编译，直接下载这个玩意。拖到项目里就可以了。记得选copy第一个选项打钩。然后添加依赖库就可以啦。<br><img src="http://upload-images.jianshu.io/upload_images/1761100-ceb93b8e704cd91a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1D14D4AD-3085-4603-91E5-EF59A17A1D97.png"></li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/1761100-3ca1153dfb85b558.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="D84FA38B-F24B-4614-B298-B4F9965810CF.png"></p>
+<ul>
+<li>so，这道题太难了，我不想编译了。百度云下载了行不- 链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1sk9QvxV">https://pan.baidu.com/s/1sk9QvxV</a> 密码: trf4</li>
+</ul>
+<blockquote>
+<p>我被ijkplayer编译弄怕了，不敢再编译，再加上当时比较急，就选了第二种方式，简单粗暴。也可以cocoapods集成或者是直接在网上下载下来–&gt;下载地址:<a target="_blank" rel="noopener" href="http://nightlies.videolan.org/build/ios/">http://nightlies.videolan.org/build/ios/</a>.打开页面之后, 拉到网页最下面可以看到最新的MobileVLCKit.framework,如果最新的报错，可以尝试其他的。我用的是2.2.2版本，pod search 可以搜到。</p>
+</blockquote>
+<p>#####3.如何集成<br>关于如何集成，推荐大家去看这篇文章 <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/178627b085c3">VLC集成与使用</a>，大神讲的已经很明白了。<br>在项目中添加依赖库(有一点不一样，大神用的比较少，我也不知道用的会不会错，我的是这样)</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1761100-6fe5c89244b68e6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="A5D3E673-8451-4C98-9E9F-60B8978B5FE8.png"></p>
+<p>我想说的只是自己遇到的一些问题，可能运气不好只有我遇到，但是还是希望写下来。<br>集成之后，第一次编译，报了个错误，说是bitcode 错误，然后把bitcode改为NO，还有VLC这个库用到了C++，所以把appdelegate.m 改为 .mm 文件。还有c++ standard library 改为第一个选项，都在build Settings里面。关于这个，请参考这篇文章，<a target="_blank" rel="noopener" href="http://blog.csdn.net/crash_zo/article/details/51459604">基于iOS 的 VLC简单 Demo</a>，这位博主写了两篇关于VLC的文章，图文并茂，写的还是不错的。</p>
+<h5 id="4-具体用法"><a href="#4-具体用法" class="headerlink" title="4.具体用法"></a>4.具体用法</h5><p>因为我们这个项目对摄像头要求比较低，所以写的比较的简单，只要在用到的界面，导入头文件：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import&lt;MobileVLCKit/MobileVLCKit.h&gt;</span><br></pre></td></tr></tbody></table></figure>
+<p>再声明上一个属性：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong)VLCMediaPlayer *player;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<p>然后就可以简单使用了。</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad {  </span><br><span class="line">  UIView *videoView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 400)];</span><br><span class="line">&nbsp; &nbsp; videoView.backgroundColor = [UIColor blackColor];//我自己给他一个背景色，好认</span><br><span class="line">&nbsp; &nbsp; [self.view addSubview:videoView];</span><br><span class="line">&nbsp; &nbsp; VLCMediaPlayer *player = [[VLCMediaPlayer alloc] initWithOptions:nil];</span><br><span class="line">&nbsp; &nbsp; self.player = player;</span><br><span class="line">   // 播放时候的载体</span><br><span class="line">&nbsp; &nbsp; self.player.drawable = videoView;</span><br><span class="line">    //我们的RTSP 测试地址（估计你们也用不了）</span><br><span class="line">&nbsp; &nbsp; NSURL *url = [NSURL URLWithString:@"rtsp://10.0.0.89/session0.mpg"];</span><br><span class="line">    // 对象给他</span><br><span class="line">&nbsp; &nbsp; self.player.media = [VLCMedia mediaWithURL:url];</span><br><span class="line">&nbsp; &nbsp; //开始播放</span><br><span class="line">    [self.player play];</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>####不想看字就看图<br><img src="http://upload-images.jianshu.io/upload_images/1761100-a4582d074b315b3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="A275803E-4879-4199-8D1A-830C960618C7.png"></p>
+<p>#####但这是初级使用，之前那篇博主写的很详细，需要复杂使用的同学可以去找他，地址—-&gt; <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/178627b085c3">VLC集成与使用</a><br>,还有这个遇到问题可以看一下参考这篇文章，<a target="_blank" rel="noopener" href="http://blog.csdn.net/crash_zo/article/details/51459604">基于iOS 的 VLC简单 Demo</a>。</p>
+<p>OK ！ 写完了，下次就好说了，一回生，二回熟。😝 喜欢这张图<br><img src="http://upload-images.jianshu.io/upload_images/1761100-25e2c10313385653.gif?imageMogr2/auto-orient/strip" alt="智障.gif"></p>
+
     </div>
 
     
@@ -224,6 +266,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2022/11/23/ios-%E5%85%A8%E5%B1%8F%E9%97%AE%E9%A2%98flutter-ios%E6%B7%B7%E7%BC%96/" rel="next" title="ios-全屏问题flutter-ios混编">
+                  ios-全屏问题flutter-ios混编 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>

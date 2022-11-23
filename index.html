@@ -121,7 +121,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -151,6 +151,86 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/11/23/ios-%E5%85%A8%E5%B1%8F%E9%97%AE%E9%A2%98flutter-ios%E6%B7%B7%E7%BC%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="大福禄">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="葫芦小金刚">
+      <meta itemprop="description" content="书中自有颜如玉">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | 葫芦小金刚">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/23/ios-%E5%85%A8%E5%B1%8F%E9%97%AE%E9%A2%98flutter-ios%E6%B7%B7%E7%BC%96/" class="post-title-link" itemprop="url">ios-全屏问题flutter-ios混编</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-23 13:47:57 / 修改时间：13:48:35" itemprop="dateCreated datePublished" datetime="2022-11-23T13:47:57+08:00">2022-11-23</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="最近在做FlutterViewController和iOS混编，项目绝大部分需要竖屏，且不随设备翻转变换方向，flutter插件中的better-player全屏需要屏幕支持横屏，因为flutterView所有的widget都在本身上，所以不能定位到视频界面，只能在viewwillapper中判断。"><a href="#最近在做FlutterViewController和iOS混编，项目绝大部分需要竖屏，且不随设备翻转变换方向，flutter插件中的better-player全屏需要屏幕支持横屏，因为flutterView所有的widget都在本身上，所以不能定位到视频界面，只能在viewwillapper中判断。" class="headerlink" title="最近在做FlutterViewController和iOS混编，项目绝大部分需要竖屏，且不随设备翻转变换方向，flutter插件中的better_player全屏需要屏幕支持横屏，因为flutterView所有的widget都在本身上，所以不能定位到视频界面，只能在viewwillapper中判断。"></a>最近在做FlutterViewController和iOS混编，项目绝大部分需要竖屏，且不随设备翻转变换方向，flutter插件中的better_player全屏需要屏幕支持横屏，因为flutterView所有的widget都在本身上，所以不能定位到视频界面，只能在viewwillapper中判断。</h2><blockquote>
+<p>ps：本来想在pop返回之后做个监听，是视频页返回主页面的时候把屏幕再限定为竖屏，didMoveToParentViewController这些方法什么的，但flutterController就一层没法监听。<br>####1.设置项目设备屏幕旋转方向，这其实不能完全决定旋转方向<br><img src="https://upload-images.jianshu.io/upload_images/1761100-48f72fa19af9cfbb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="WeChatb9a134cac5d2349e27ab1b43672a400d.png"><br>####2.在AppDelegate中设置，优先级更高的方法，如果这个方法实现，覆盖info中设置</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">@interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt;</span><br><span class="line"></span><br><span class="line">@property (strong, nonatomic) UIWindow *window;</span><br><span class="line">/***是否允许横屏的标记*/</span><br><span class="line">@property (nonatomic, assign) BOOL allowRotation;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">----------------------AppDelegate.m</span><br><span class="line">-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window</span><br><span class="line">{</span><br><span class="line">    if (self.allowRotation) {</span><br><span class="line">        return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskLandscape;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    return UIInterfaceOrientationMaskPortrait;//默认不支持横屏</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>####3.在UIViewController中<br>当设备发生旋转时，首先会查看根controller的shouldAutorotate是否允许旋转，如果允许，再通过<br>supportedInterfaceOrientations返回的方向 和 系统支持的方向 的交集，判断当前这个旋转是否应该发生。</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark - 屏幕旋转这三个方法可以在原生正常viewController中起效，对flutterViewController不起作用</span><br><span class="line">///屏幕是否可以选择，yes</span><br><span class="line">- (BOOL)shouldAutorotate {</span><br><span class="line">    return YES;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">///页面选择默认方向</span><br><span class="line">- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation {</span><br><span class="line">    return UIInterfaceOrientationLandscapeRight;</span><br><span class="line">}</span><br><span class="line">//页面支持的旋转方向</span><br><span class="line">- (UIInterfaceOrientationMask)supportedInterfaceOrientations {</span><br><span class="line">    return UIInterfaceOrientationMaskLandscape;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">---------设置支持旋转方向+退出界面关闭，可在viewwillapper中调用------</span><br><span class="line">- (void)viewWillAppear:(BOOL)animated {</span><br><span class="line">    [super viewWillAppear:animated];</span><br><span class="line">    if (self.isPop)</span><br><span class="line">    {</span><br><span class="line">        [self endFullScreen];</span><br><span class="line">        self.isPop = !self.isPop;</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line">------------------------------------------------</span><br><span class="line">//进入全屏</span><br><span class="line">-(void)begainFullScreen{</span><br><span class="line">    _isPop = YES;</span><br><span class="line">  AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];</span><br><span class="line">  appDelegate.allowRotation = YES;</span><br><span class="line">}</span><br><span class="line">// 退出全屏</span><br><span class="line">-(void)endFullScreen{</span><br><span class="line">  AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];</span><br><span class="line">  appDelegate.allowRotation = NO;</span><br><span class="line">  //强制归正：</span><br><span class="line">  if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {</span><br><span class="line">    SEL selector = NSSelectorFromString(@"setOrientation:");</span><br><span class="line">    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];</span><br><span class="line">    [invocation setSelector:selector];</span><br><span class="line">    [invocation setTarget:[UIDevice currentDevice]];</span><br><span class="line">    int val =UIInterfaceOrientationPortrait;</span><br><span class="line">    [invocation setArgument:&amp;val atIndex:2];</span><br><span class="line">    [invocation invoke];</span><br><span class="line">  }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>##PS:提示 想监听侧滑返回结果，用下面的方法，但这个在混编项目里不适用，因为flutter只有一个树</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidDisappear:(BOOL)animated {</span><br><span class="line">    [super viewDidDisappear:animated];</span><br><span class="line">    if (self.navigationController == nil) {</span><br><span class="line">       //TODO:你想做的事情</span><br><span class="line">    }</span><br><span class="line">    NSLog(@"%@: %ld, %@", self, viewCount, self.navigationController);</span><br><span class="line">}</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<blockquote>
+<p>@property(nullable, nonatomic,readonly,strong) UINavigationController *navigationController;//这个属性<br>If the view controller or one of its ancestors is a child of a navigation controller, this property contains the owning navigation controller. This property is nil if the view controller is not embedded inside a navigation controller.<br>如果视图控制器或其祖先之一是导航控制器的子级，则此属性包含所属导航控制器。如果视图控制器未嵌入导航控制器内，则此属性为 nil。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -190,7 +270,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-11-23 13:44:35 / 修改时间：13:44:36" itemprop="dateCreated datePublished" datetime="2022-11-23T13:44:35+08:00">2022-11-23</time>
+      <time title="创建时间：2022-11-23 13:44:35 / 修改时间：13:45:45" itemprop="dateCreated datePublished" datetime="2022-11-23T13:44:35+08:00">2022-11-23</time>
     </span>
 
   
@@ -203,7 +283,42 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          
+          <p>#先放demo 地址<br>  <a target="_blank" rel="noopener" href="https://github.com/ssj1314/iOS-VLC-RTSP-">https://github.com/ssj1314/iOS-VLC-RTSP-</a><br>  github 库太大，我传不上去。在网盘下载framework之后添加就行了。哪位大神教我一下。<br>###百度网盘也能先凑活一下了。新的链接里面有framework库: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1bQJshOx1JRpjadxS-BO6ag">https://pan.baidu.com/s/1bQJshOx1JRpjadxS-BO6ag</a> 提取码: vs8e</p>
+<p>基友demo2 抽出来的小项目 把库抽出来了不然太大，可以把库直接放进去使用。<br>链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1hrETkAo">https://pan.baidu.com/s/1hrETkAo</a> 密码: 5u6k</p>
+<h3 id="1-VLC-介绍"><a href="#1-VLC-介绍" class="headerlink" title="1.VLC 介绍"></a>1.VLC 介绍</h3><p><a target="_blank" rel="noopener" href="http://www.videolan.org/vlc/">VLC</a> 是什么？(借的，这个比较全)</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://code.videolan.org/videolan/VLCKit.git">VLC</a>&nbsp;VLC媒体播放器（VideoLAN的）为Windows，Linux和OS X，Android版，iOS版的Windows Phone等平台提供一个视频播放器，解码器，它可以播放来自网络，摄像头，磁盘，光驱的文件，支持包括MPEG 1 / 2/4，H264，VC-1，DivX的，WMV，Vorbis格式，AC3，AAC等格式的解码。在windows和linux上的VLC是使用C ++ / Qt的写成，提供了一致的用户体验。同时VLC还专门为OS X提供了原生版本，Mac OS X版的VLC的用户界面使用可可框架编写，在OS X下拥有卓越的原生体验。</p>
+</blockquote>
+<ul>
+<li>VLC还有一个非常好的功能 - 播放那些没有下载完整的视频文件。</li>
+<li>VLC几乎覆盖所有媒体格式。</li>
+</ul>
+<p>PS:   以前也没做过，最近公司要做一个关于火车摄像头的App，没办法，找轮子吧，先找了ijkplayer，听说还是比较好使的，但由于在实现过程中经历了很多曲折，编译老失败，无奈之下，在一篇文章评论区看到这个VLC，然后就开始了研究，找了几篇文章之后，竟然成功了。哈哈 感觉好开心，大概折腾了两天，中间头疼过好多次，不过最终还是成功了，记录一下，聊作慰藉，也给后来用的人一个前车之鉴，<br>希望能有用。come on baby ！！！</p>
+<p>####2.怎么下载使用<br>这是一款强大的全平台播放器, 几乎支持所有的音频、视频格式文件播放, 官网地址:<a target="_blank" rel="noopener" href="http://www.videolan.org/">http://www.videolan.org/</a></p>
+<ul>
+<li>在iOS 中也可以集成 VLC 的 SDK 进行开发, 使用之前需要先去官网下载 SDK, 然后编译成 iOS 中使用的库文件才能使用, 这种集成方法在编译的过程中需要 VPN 翻墙进行联网编译, 如果网速不好或者不稳定, 很容易编译出错, 如果网速好, 可以按照 wiki 的说明去编译: [<a target="_blank" rel="noopener" href="https://wiki.videolan.org/iOSCompile]">https://wiki.videolan.org/iOSCompile]</a></li>
+<li>第二种方式，不用编译，直接下载这个玩意。拖到项目里就可以了。记得选copy第一个选项打钩。然后添加依赖库就可以啦。<br><img src="http://upload-images.jianshu.io/upload_images/1761100-ceb93b8e704cd91a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="1D14D4AD-3085-4603-91E5-EF59A17A1D97.png"></li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/1761100-3ca1153dfb85b558.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="D84FA38B-F24B-4614-B298-B4F9965810CF.png"></p>
+<ul>
+<li>so，这道题太难了，我不想编译了。百度云下载了行不- 链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1sk9QvxV">https://pan.baidu.com/s/1sk9QvxV</a> 密码: trf4</li>
+</ul>
+<blockquote>
+<p>我被ijkplayer编译弄怕了，不敢再编译，再加上当时比较急，就选了第二种方式，简单粗暴。也可以cocoapods集成或者是直接在网上下载下来–&gt;下载地址:<a target="_blank" rel="noopener" href="http://nightlies.videolan.org/build/ios/">http://nightlies.videolan.org/build/ios/</a>.打开页面之后, 拉到网页最下面可以看到最新的MobileVLCKit.framework,如果最新的报错，可以尝试其他的。我用的是2.2.2版本，pod search 可以搜到。</p>
+</blockquote>
+<p>#####3.如何集成<br>关于如何集成，推荐大家去看这篇文章 <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/178627b085c3">VLC集成与使用</a>，大神讲的已经很明白了。<br>在项目中添加依赖库(有一点不一样，大神用的比较少，我也不知道用的会不会错，我的是这样)</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1761100-6fe5c89244b68e6a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="A5D3E673-8451-4C98-9E9F-60B8978B5FE8.png"></p>
+<p>我想说的只是自己遇到的一些问题，可能运气不好只有我遇到，但是还是希望写下来。<br>集成之后，第一次编译，报了个错误，说是bitcode 错误，然后把bitcode改为NO，还有VLC这个库用到了C++，所以把appdelegate.m 改为 .mm 文件。还有c++ standard library 改为第一个选项，都在build Settings里面。关于这个，请参考这篇文章，<a target="_blank" rel="noopener" href="http://blog.csdn.net/crash_zo/article/details/51459604">基于iOS 的 VLC简单 Demo</a>，这位博主写了两篇关于VLC的文章，图文并茂，写的还是不错的。</p>
+<h5 id="4-具体用法"><a href="#4-具体用法" class="headerlink" title="4.具体用法"></a>4.具体用法</h5><p>因为我们这个项目对摄像头要求比较低，所以写的比较的简单，只要在用到的界面，导入头文件：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import&lt;MobileVLCKit/MobileVLCKit.h&gt;</span><br></pre></td></tr></tbody></table></figure>
+<p>再声明上一个属性：</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong)VLCMediaPlayer *player;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<p>然后就可以简单使用了。</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad {  </span><br><span class="line">  UIView *videoView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, self.view.bounds.size.width, 400)];</span><br><span class="line">&nbsp; &nbsp; videoView.backgroundColor = [UIColor blackColor];//我自己给他一个背景色，好认</span><br><span class="line">&nbsp; &nbsp; [self.view addSubview:videoView];</span><br><span class="line">&nbsp; &nbsp; VLCMediaPlayer *player = [[VLCMediaPlayer alloc] initWithOptions:nil];</span><br><span class="line">&nbsp; &nbsp; self.player = player;</span><br><span class="line">   // 播放时候的载体</span><br><span class="line">&nbsp; &nbsp; self.player.drawable = videoView;</span><br><span class="line">    //我们的RTSP 测试地址（估计你们也用不了）</span><br><span class="line">&nbsp; &nbsp; NSURL *url = [NSURL URLWithString:@"rtsp://10.0.0.89/session0.mpg"];</span><br><span class="line">    // 对象给他</span><br><span class="line">&nbsp; &nbsp; self.player.media = [VLCMedia mediaWithURL:url];</span><br><span class="line">&nbsp; &nbsp; //开始播放</span><br><span class="line">    [self.player play];</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>####不想看字就看图<br><img src="http://upload-images.jianshu.io/upload_images/1761100-a4582d074b315b3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="A275803E-4879-4199-8D1A-830C960618C7.png"></p>
+<p>#####但这是初级使用，之前那篇博主写的很详细，需要复杂使用的同学可以去找他，地址—-&gt; <a target="_blank" rel="noopener" href="http://www.jianshu.com/p/178627b085c3">VLC集成与使用</a><br>,还有这个遇到问题可以看一下参考这篇文章，<a target="_blank" rel="noopener" href="http://blog.csdn.net/crash_zo/article/details/51459604">基于iOS 的 VLC简单 Demo</a>。</p>
+<p>OK ！ 写完了，下次就好说了，一回生，二回熟。😝 喜欢这张图<br><img src="http://upload-images.jianshu.io/upload_images/1761100-25e2c10313385653.gif?imageMogr2/auto-orient/strip" alt="智障.gif"></p>
+
       
     </div>
 
@@ -1188,155 +1303,6 @@ Dispaly:
 <li>找到<strong>TargetHeapMetadata</strong>结构体，找到<strong>TargetClassDescriptor</strong>，然后找到<strong>TargetTypeContextDescriptor</strong>，并且找到了<strong>Fields</strong>成员变量。</li>
 <li>通过Fields找到了<strong>FieldDescriptor</strong>的定义，并且找到其中的<strong>FieldRecords</strong>，</li>
 <li>通过迭代器<strong>FieldRecodIterator</strong>，找到了<strong>FieldRecord</strong>。</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%932/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="大福禄">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="葫芦小金刚">
-      <meta itemprop="description" content="书中自有颜如玉">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | 葫芦小金刚">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%932/" class="post-title-link" itemprop="url">Swift第一节课类与结构体2</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-09-02 09:03:44" itemprop="dateCreated datePublished" datetime="2022-09-02T09:03:44+08:00">2022-09-02</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-09-09 15:55:00" itemprop="dateModified" datetime="2022-09-09T15:55:00+08:00">2022-09-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <hr>
-<h2 id="highlight-a11y-dark"><a href="#highlight-a11y-dark" class="headerlink" title="highlight: a11y-dark"></a>highlight: a11y-dark</h2><ul>
-<li><a href="#%E4%B8%80%E5%BC%82%E5%8F%98%E6%96%B9%E6%B3%95">一、异变方法</a></li>
-<li><a href="#%E4%BA%8C%E6%96%B9%E6%B3%95%E8%B0%83%E5%BA%A6">二、方法调度</a><ul>
-<li><a href="#mahco-mach-o-%E5%85%B6%E5%AE%9E%E6%98%AFmach-object%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E7%9A%84%E7%BC%A9%E5%86%99%E6%98%AF-mac-%E4%BB%A5%E5%8F%8A-ios-%E4%B8%8A%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E6%A0%BC%E5%BC%8F-%E7%B1%BB%E4%BC%BC%E4%BA%8E-windows-%E4%B8%8A%E7%9A%84-pe-%E6%A0%BC%E5%BC%8F-portable-executable--linux-%E4%B8%8A%E7%9A%84-elf-%E6%A0%BC%E5%BC%8F-executableand-linking-format-%E5%B8%B8%E8%A7%81%E7%9A%84-oa-dylib-frameworkdyld-dsym"><strong>Mahco</strong>: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .dylib Framework，dyld .dsym。</a></li>
-</ul>
-</li>
-<li><a href="#%E4%B8%89%E5%BD%B1%E5%93%8D%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%96%B9%E5%BC%8F">三、影响函数派发方式</a><br>[TOC]</li>
-</ul>
-<h1 id="一、异变方法"><a href="#一、异变方法" class="headerlink" title="一、异变方法"></a>一、异变方法</h1><p>第一天我们了解到，Swift 中 class 和 struct 都能定义方法。但是有一点区别的是，默认情况下，值类型属性不能被自身的实例方法修改。</p>
-<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> {</span><br><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">0.0</span>, y <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">moveBy</span>(<span class="params">x</span> <span class="params">deltaX</span>: <span class="type">Double</span>, <span class="params">y</span> <span class="params">deltaY</span>: <span class="type">Double</span>) {</span><br><span class="line"></span><br><span class="line"><span class="comment">//self</span></span><br><span class="line">x <span class="operator">+=</span> deltaX</span><br><span class="line">y <span class="operator">+=</span> deltaY</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<p>通过 SIL 来对比一下，不添加 mutating 访问和添加 mutating 两者有什么本质的区别</p>
-<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> {</span><br><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">0.0</span>, y <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>(){</span><br><span class="line"><span class="keyword">let</span> tmp <span class="operator">=</span> <span class="keyword">self</span>.x</span><br><span class="line">}</span><br><span class="line"><span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">moveBy</span>(<span class="params">x</span> <span class="params">deltaX</span>: <span class="type">Double</span>, <span class="params">y</span> <span class="params">deltaY</span>: <span class="type">Double</span>) { </span><br><span class="line">    x <span class="operator">+=</span> deltaX</span><br><span class="line">    y <span class="operator">+=</span> deltaY</span><br><span class="line">   }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<blockquote>
-<p>sil hidden [ossa] @$s4main5PointV4testyyF : $@convention(method) (Point) -&gt;<br>这是普通的<br>debug_value %0 : $Point, let, name “self”, argno 1 // id: %1</p>
-<p>sil hidden [ossa] @$s4main5PointV6moveBy1x1yySd_SdtF : $@convention(method)<br>这是加了mutating的<br>@inout Point<br>加了mutating的关键字多了一个 @inout关键字</p>
-</blockquote>
-<p>SIL 文档的解释</p>
-<p><code>An @inout parameter is indirect. The address must be of an initialized object.</code>（当前参数类型是间接的，传递的是已经初始化过的地址）</p>
-<p>异变方法的本质：对于变异方法, 传入的 self 被标记为 inout 参数。无论在 mutating 方法内部发生什么，都会影响外部依赖类型的一切。其实就是告诉外面，你拿的是我的根or源头，可以直接操作我。</p>
-<p><strong>输入输出参数</strong>：如果我们想函数能够修改一个形式参数的值，而且希望这些改变在函数结束之后依然生效，那么就需要将形式参数定义为 输入输出形式参数 。在形式参数定义开始的时候在前边添加一个 <code>inout</code>键字可以定义一个输入输出形式参数</p>
-<h1 id="二、方法调度"><a href="#二、方法调度" class="headerlink" title="二、方法调度"></a>二、方法调度</h1><p>//oc里是objc_mgsend</p>
-<p>我们先来看一下 Swift 中的方法调度</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LGTeacher</span>{ func <span class="title function_">teach</span>(<span class="params"></span>){</span><br><span class="line"></span><br><span class="line"><span class="title function_">print</span>(<span class="string">"teach"</span>) }</span><br><span class="line"></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> t = <span class="title class_">LGTeacher</span>() </span><br><span class="line">t.<span class="title function_">teach</span>()</span><br></pre></td></tr></tbody></table></figure>
-<p>teach函数的调用过程：找到 Metadata ，确定函数地址（metadata + 偏移量）， 执行函数基于函数表的调度之前我们在第一节课讲到了 Metdata 的数据结构，那么 V-Table 是存放在什么地方那？</p>
-<p>我们先来回顾一下当前的数据结构</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">struct <span class="title class_">Metadata</span>{</span><br><span class="line"><span class="keyword">var</span> <span class="attr">kind</span>: <span class="title class_">Int</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">superClass</span>: <span class="title class_">Any</span>.<span class="property">Type</span> <span class="keyword">var</span> <span class="attr">cacheData</span>: (<span class="title class_">Int</span>, <span class="title class_">Int</span>) <span class="keyword">var</span> <span class="attr">data</span>: <span class="title class_">Int</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">classFlags</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">instanceAddressPoint</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">instanceSize</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">instanceAlignmentMask</span>: <span class="title class_">UInt16</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">reserved</span>: <span class="title class_">UInt16</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">classSize</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">classAddressPoint</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">typeDescriptor</span>: <span class="title class_">UnsafeMutableRawPointer</span> <span class="keyword">var</span> <span class="attr">iVarDestroyer</span>: <span class="title class_">UnsafeRawPointer</span></span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<p>这里我们有一个东西需要关注 <code>typeDescriptor</code> ，不管是 Class ， Struct , Enum 都有自己的 Descriptor ，就是对类的一个详细描述</p>
-<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">struct <span class="title class_">TargetClassDescriptor</span>{ <span class="keyword">var</span> <span class="attr">flags</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">parent</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">name</span>: <span class="title class_">Int32</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="attr">accessFunctionPointer</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">fieldDescriptor</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">superClassType</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">metadataNegativeSizeInWords</span>: <span class="title class_">UInt32</span> <span class="keyword">var</span> <span class="attr">metadataPositiveSizeInWords</span>: <span class="title class_">UInt32</span> <span class="keyword">var</span> <span class="attr">numImmediateMembers</span>: <span class="title class_">UInt32</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="attr">numFields</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">fieldOffsetVectorOffset</span>: <span class="title class_">UInt32</span> <span class="keyword">var</span> <span class="title class_">Offset</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">size</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="comment">//V-Table</span></span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-
-<h3 id="Mahco-Mach-O-其实是Mach-Object文件格式的缩写，是-mac-以及-iOS-上可执行文件的格式，-类似于-windows-上的-PE-格式-Portable-Executable-linux-上的-elf-格式-Executableand-Linking-Format-。常见的-o，-a-dylib-Framework，dyld-dsym。"><a href="#Mahco-Mach-O-其实是Mach-Object文件格式的缩写，是-mac-以及-iOS-上可执行文件的格式，-类似于-windows-上的-PE-格式-Portable-Executable-linux-上的-elf-格式-Executableand-Linking-Format-。常见的-o，-a-dylib-Framework，dyld-dsym。" class="headerlink" title="Mahco: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .dylib Framework，dyld .dsym。"></a><strong>Mahco</strong>: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .dylib Framework，dyld .dsym。</h3><p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/55d2443580c04b64b80683d6a9a4cfb5~tplv-k3u1fbpfcp-watermark.image" alt="WeChat2f0d6f00f519c9d2bb4d574053fd6aa3.png"></p>
-<p><strong>Mahoc文件格式：首先是文件头，表明该文件是 Mach-O 格式，指定目标架构，还有一些其他的文件属性信<br>息，文件头信息影响后续的文件结构安排 Load commands是一张包含很多内容的表。内容包括区域的位置、符号表、动态符号表等。</strong></p>
-<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">LC_SEGMENT_64</span> 将文件中（<span class="number">32</span>位或<span class="number">64</span>位）的段映射到进程地址空间中</span><br><span class="line"><span class="type">LC_DYLD_INFO_ONLY</span> 动态链接相关信息</span><br><span class="line"></span><br><span class="line"><span class="type">LC_SYMTAB</span> 符号地址</span><br><span class="line"></span><br><span class="line"><span class="type">LC_DYSYMTAB</span> 动态符号表地址</span><br><span class="line"></span><br><span class="line"><span class="type">LC_LOAD_DYLINKER</span> dyld加载</span><br><span class="line"></span><br><span class="line"><span class="type">LC_UUID</span> 文件的<span class="type">UUID</span></span><br><span class="line"></span><br><span class="line"><span class="type">LC_VERSION_MIN_MACOSX</span> 支持最低的操作系统版本</span><br><span class="line"></span><br><span class="line"><span class="type">LC_SOURCE_VERSION</span> 源代码版本</span><br><span class="line"></span><br><span class="line"><span class="type">LC_MAIN</span> 设置程序主线程的入口地址和栈大小</span><br><span class="line"></span><br><span class="line"><span class="type">LC_LOAD_DYLIB</span> 依赖库的路径，包含三方库</span><br><span class="line"></span><br><span class="line"><span class="type">LC_FUNCTION_STARTS</span> 函数起始地址表</span><br><span class="line"></span><br><span class="line"><span class="type">LC_CODE_SIGNATURE</span> 代码签名</span><br></pre></td></tr></tbody></table></figure>
-
-<ul>
-<li>Data 区主要就是负责代码和数据记录的。Mach-O 是以 Segment 这种结构来组织数据的，一个 Segment 可以包含 0 个或多个 Section。根据 Segment 是映射的哪一个 LoadCommand，Segment 中 section 就可以被解读为是是代码，常量或者一些其他的数据类型。在装载在内存中时，也是根据 Segment 做内存映射的。</li>
-</ul>
-<p><strong>方法调度方式总结：</strong></p>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>调度方式</th>
-<th>extension</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>值类型</td>
-<td>静态派发</td>
-<td>静态派发</td>
-</tr>
-<tr>
-<td>类类型</td>
-<td>函数表派发</td>
-<td>静态派发</td>
-</tr>
-<tr>
-<td>NSobject子类</td>
-<td>函数表派发</td>
-<td>静态派发</td>
-</tr>
-</tbody></table>
-<h1 id="三、影响函数派发方式"><a href="#三、影响函数派发方式" class="headerlink" title="三、影响函数派发方式"></a>三、影响函数派发方式</h1><ul>
-<li><p>final： 添加了 final 关键字的函数无法被重写，使用静态派发，不会在 vtable 中出现，且 对 objc 运行时不可见。</p>
-</li>
-<li><p>dynamic: 函数均可添加 dynamic 关键字，为非objc类和值类型的函数赋予动态性，但派发方式还是函数表派发。</p>
-</li>
-<li><p>@objc： 该关键字可以将Swift函数暴露给Objc运行时，依旧是函数表派发。</p>
-</li>
-<li><p>@objc + dynamic： 消息派发的方式</p>
-</li>
 </ul>
 
       
