@@ -380,7 +380,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-11-29 14:38:02" itemprop="dateModified" datetime="2022-11-29T14:38:02+08:00">2022-11-29</time>
+      <time title="修改时间：2022-11-29 14:40:49" itemprop="dateModified" datetime="2022-11-29T14:40:49+08:00">2022-11-29</time>
     </span>
 
   
@@ -461,6 +461,16 @@
 <h5 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码:"></a>测试代码:</h5><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//归档深拷贝测试</span><br><span class="line">NSMutableArray * array1 = [NSMutableArray arrayWithObjects:a1, nil];</span><br><span class="line">NSData * data = [NSKeyedArchiver archivedDataWithRootObject:array1];</span><br><span class="line">NSMutableArray * array2 = [NSKeyedUnarchiver unarchiveObjectWithData:data];</span><br><span class="line"></span><br><span class="line">NSLog(@"\n array1 = %p,class1 = %@",array1,[array1 class]);</span><br><span class="line">NSLog(@"\n array2 = %p,class2 = %@",array2,[array2 class]);</span><br><span class="line"></span><br><span class="line">NSLog(@"\n----------数组内元素是否深拷贝------------\n");</span><br><span class="line">User * orgArrayObj = (User *)array1[0];</span><br><span class="line">User * newArrayObj2 = (User *)array2[0];</span><br><span class="line">NSLog(@"array1[0]= %p,name = %p",orgArrayObj,orgArrayObj.name);</span><br><span class="line">NSLog(@"array2[0]= %p,name = %p",newArrayObj2,newArrayObj2.name);</span><br></pre></td></tr></tbody></table></figure>
 <h5 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果:"></a>测试结果:</h5><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">2022-11-28 14:01:18.504350+0800 Set[1177:47745] User-dealloc</span><br><span class="line"></span><br><span class="line"> array1 = 0x2809c9380,class1 = __NSArrayM</span><br><span class="line"></span><br><span class="line"> array2 = 0x2809c9170,class2 = __NSArrayM</span><br><span class="line"></span><br><span class="line">----------数组内元素是否深拷贝------------</span><br><span class="line"></span><br><span class="line">array1[0]= 0x2809c9320,name = 0x102748438</span><br><span class="line">array2[0]= 0x2809c9350,name = 0x2807fefa0</span><br></pre></td></tr></tbody></table></figure>
 <p><font color="#dd0000"> 很明显,不仅数组本身被深拷贝了,数组里面的自定义对象属性都被深拷贝了 </font></p>
+<h3 id="时间之外的往事"><a href="#时间之外的往事" class="headerlink" title="时间之外的往事"></a>时间之外的往事</h3><ul>
+<li><p>声明Nsarray和NSMutableArray变量时,哪个更适用copy修饰.</p>
+</li>
+<li><p>1.如果使用strong来修饰NSArray类型的数组，当array的数组被赋值了可变数组对象时，当可变数组改变时，NSArray数组里的对象也会跟着改变，这是我们不想要的结果。使用copy修饰，在被赋值可变数组时，会生成一个新的不可变数组对象，这样可变数组之后怎样变化，都不会影响NSArray类型的数组对象。</p>
+</li>
+<li><p>2.使用strong来修饰NSMutableArray类型的数组，当mArray的数组被赋值了可变数组对象时，当可变数组改变时，NSMutableArray数组里的对象也会跟着改变，这是符合我们预期的。当使用copy修饰后，被赋值后，会生成一个新的不可变数组对象。这样我们还以为它是可变类型的数组，然后使用增删改查，就会crash，也谈不上可以改变数组对象了。</p>
+</li>
+<li><p>3.综上，用property声明NSArray数组时，最好使用copy。用property声明NSMutableArray数组时，最好使用strong。如果使用copy，又self.mArr来赋值，后面增删改查，程序肯定会crash的。</p>
+</li>
+</ul>
 <h3 id="总结一下啊"><a href="#总结一下啊" class="headerlink" title="总结一下啊"></a>总结一下啊</h3><ul>
 <li>copy: 对NSArray对象是浅拷贝,对NSMutableArray对象是深拷贝</li>
 <li>mutableCopy是深拷贝.<font color="dd0000">注意这些都是单层深拷贝</font></li>
@@ -469,15 +479,6 @@
 <li>通过遍历array,对User分别拷贝,会调用User的copyWithZone,此时NSArray是深拷贝,NSArray内元素user是深拷贝,user的属性参数是否是深拷贝,取决于属性的类型(NSString浅拷贝,NSMutableString深拷贝)</li>
 <li>通过遍历array,对user分别mutableCopy,会调用user的mutableCopyWithZone,此时NSarray是深拷贝,NSArray内元素是深拷贝,元素的属性参数也是深拷贝.</li>
 <li>通过归解档的方式,可以实现对array、array内元素属性深拷贝.</li>
-</ul>
-<p>###时间之外的往事</p>
-<ul>
-<li><p>1.如果使用strong来修饰NSArray类型的数组，当array的数组被赋值了可变数组对象时，当可变数组改变时，NSArray数组里的对象也会跟着改变，这是我们不想要的结果。使用copy修饰，在被赋值可变数组时，会生成一个新的不可变数组对象，这样可变数组之后怎样变化，都不会影响NSArray类型的数组对象。</p>
-</li>
-<li><p>2.使用strong来修饰NSMutableArray类型的数组，当mArray的数组被赋值了可变数组对象时，当可变数组改变时，NSMutableArray数组里的对象也会跟着改变，这是符合我们预期的。当使用copy修饰后，被赋值后，会生成一个新的不可变数组对象。这样我们还以为它是可变类型的数组，然后使用增删改查，就会crash，也谈不上可以改变数组对象了。</p>
-</li>
-<li><p>3.综上，用property声明NSArray数组时，最好使用copy。用property声明NSMutableArray数组时，最好使用strong。如果使用copy，又self.mArr来赋值，后面增删改查，程序肯定会crash的。</p>
-</li>
 </ul>
 
       
