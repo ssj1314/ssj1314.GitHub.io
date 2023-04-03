@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha256-xejo6yLi6vGtAjcMIsY8BHdKsLg7QynVlFMzdQgUuy8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ssj1314.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言1.深浅拷贝2.copy和mutableCopy介绍和用法3.为什么修饰block用copy4.声明Nsarray和NSMutableArray变量时,哪个更适用copy修饰.5.总结一、深浅拷贝 1.什么是深拷贝,什么是浅拷贝 深拷贝:拷贝出来的对象与源对象地址不一样! 这意味着我们修改拷贝对象对源对象没有任何影响.浅拷贝:拷贝的是指针地址,拷贝的对象与源对象地址一致! 此时我们修改拷贝对象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ios里的copy和mutableCopy记录拾遗ss">
+<meta property="og:url" content="https://ssj1314.github.io/2022/11/17/ios%E9%87%8C%E7%9A%84copy%E5%92%8CmutableCopy%E8%AE%B0%E5%BD%95%E6%8B%BE%E9%81%97/index.html">
+<meta property="og:site_name" content="葫芦小金刚">
+<meta property="og:description" content="前言1.深浅拷贝2.copy和mutableCopy介绍和用法3.为什么修饰block用copy4.声明Nsarray和NSMutableArray变量时,哪个更适用copy修饰.5.总结一、深浅拷贝 1.什么是深拷贝,什么是浅拷贝 深拷贝:拷贝出来的对象与源对象地址不一样! 这意味着我们修改拷贝对象对源对象没有任何影响.浅拷贝:拷贝的是指针地址,拷贝的对象与源对象地址一致! 此时我们修改拷贝对象">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1761100-b1394fe82be744d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp">
+<meta property="article:published_time" content="2022-11-17T08:32:25.000Z">
+<meta property="article:modified_time" content="2022-11-29T06:48:45.818Z">
+<meta property="article:author" content="大福禄">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1761100-b1394fe82be744d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp">
+
+
+<link rel="canonical" href="https://ssj1314.github.io/2022/11/17/ios%E9%87%8C%E7%9A%84copy%E5%92%8CmutableCopy%E8%AE%B0%E5%BD%95%E6%8B%BE%E9%81%97/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ssj1314.github.io/2022/11/17/ios%E9%87%8C%E7%9A%84copy%E5%92%8CmutableCopy%E8%AE%B0%E5%BD%95%E6%8B%BE%E9%81%97/","path":"2022/11/17/ios里的copy和mutableCopy记录拾遗/","title":"ios里的copy和mutableCopy记录拾遗ss"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ios里的copy和mutableCopy记录拾遗ss | 葫芦小金刚</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">葫芦小金刚</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">宋帅杰</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">1.1.</span> <span class="nav-text">1.深浅拷贝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-copy%E5%92%8CmutableCopy%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%94%A8%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">2.copy和mutableCopy介绍和用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BF%AE%E9%A5%B0block%E7%94%A8copy"><span class="nav-number">1.3.</span> <span class="nav-text">3.为什么修饰block用copy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%A3%B0%E6%98%8ENsarray%E5%92%8CNSMutableArray%E5%8F%98%E9%87%8F%E6%97%B6-%E5%93%AA%E4%B8%AA%E6%9B%B4%E9%80%82%E7%94%A8copy%E4%BF%AE%E9%A5%B0"><span class="nav-number">1.4.</span> <span class="nav-text">4.声明Nsarray和NSMutableArray变量时,哪个更适用copy修饰.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E6%80%BB%E7%BB%93"><span class="nav-number">1.5.</span> <span class="nav-text">5.总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.</span> <span class="nav-text">一、深浅拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#copy%E5%B0%B1%E6%98%AF%E6%B5%85%E6%8B%B7%E8%B4%9D-mutableCopy%E5%B0%B1%E6%98%AF%E6%B7%B1%E6%8B%B7%E8%B4%9D-%E4%BA%8B%E5%AE%9E%E4%B8%8A-copy"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">copy就是浅拷贝,mutableCopy就是深拷贝. 事实上,copy</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81copy%E5%92%8CmutableCopy%E7%9A%84%E4%BB%8B%E7%BB%8D%E5%92%8C%E7%94%A8%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">二、copy和mutableCopy的介绍和用法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#copyWithZone"><span class="nav-number">3.1.</span> <span class="nav-text">copyWithZone:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mutableCopy-%E6%98%AFNSMutableCopy%E5%8D%8F%E8%AE%AE%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">mutableCopy(是NSMutableCopy协议的方法)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mutableCopyWithZone"><span class="nav-number">3.3.</span> <span class="nav-text">mutableCopyWithZone:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B%E8%AF%B4%E6%98%8E%E7%94%A8%E6%B3%95"><span class="nav-number">3.4.</span> <span class="nav-text">举例说明用法:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSArray%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%95%B0%E7%BB%84-arr"><span class="nav-number">3.5.</span> <span class="nav-text">NSArray类型的数组:arr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSMutableArray%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%95%B0%E7%BB%84-mArr"><span class="nav-number">3.6.</span> <span class="nav-text">NSMutableArray类型的数组:mArr</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A0%E8%AE%BA%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D%EF%BC%8C%E9%9B%86%E5%90%88%E5%AF%B9%E8%B1%A1%E5%86%85%E5%85%83%E7%B4%A0%E9%83%BD%E6%98%AF%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">4.</span> <span class="nav-text">无论深浅拷贝，集合对象内元素都是浅拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E4%B9%8B-copy%E4%B8%80%E8%88%AC%E6%83%85%E5%86%B5%E4%B8%8B%E6%98%AF%E6%B5%85%E6%8B%B7%E8%B4%9D-%E4%BD%86%E6%98%AF%E5%9C%A8%E4%B8%80%E4%BA%9B%E6%83%85%E5%86%B5%E4%B8%8B-copy%E5%8F%88%E6%98%AF%E6%B7%B1%E6%8B%B7%E8%B4%9D"><span class="nav-number">5.</span> <span class="nav-text">总之,copy一般情况下是浅拷贝,但是在一些情况下,copy又是深拷贝.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AD%A4%E6%97%B6%E6%88%91%E4%BB%AC%E5%8F%AF%E7%9F%A5-%E8%A6%81%E5%AF%B9%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AF%B9%E8%B1%A1%E6%B7%B1%E6%8B%B7%E8%B4%9D-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%98%AF%E9%87%8D%E5%86%99copyWithZone%E3%80%81mutableCopyWithZone-%E8%B0%83%E7%94%A8%E5%AF%B9%E5%BA%94%E6%96%B9%E6%B3%95-%E8%BF%98%E6%9C%89%E4%B8%80%E7%A7%8D%E6%96%B9%E5%BC%8F-%E5%BD%92%E6%A1%A3"><span class="nav-number">5.0.1.</span> <span class="nav-text">此时我们可知,要对自定义对象深拷贝,解决方案是重写copyWithZone、mutableCopyWithZone,调用对应方法.还有一种方式:归档</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81"><span class="nav-number">5.0.2.</span> <span class="nav-text">测试代码:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="nav-number">5.0.3.</span> <span class="nav-text">测试结果:</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E4%B9%8B%E5%A4%96%E7%9A%84%E5%BE%80%E4%BA%8B-%E5%A3%B0%E6%98%8ENsarray%E5%92%8CNSMutableArray%E5%8F%98%E9%87%8F%E6%97%B6-%E5%93%AA%E4%B8%AA%E6%9B%B4%E9%80%82%E7%94%A8copy%E4%BF%AE%E9%A5%B0"><span class="nav-number">6.</span> <span class="nav-text">时间之外的往事  声明Nsarray和NSMutableArray变量时,哪个更适用copy修饰.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E4%B9%8B%E5%A4%96%E7%9A%84%E5%BE%80%E4%BA%8B%E4%BA%8C-%E4%B8%BA%E4%BB%80%E4%B9%88block%E4%BD%BF%E7%94%A8copy%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">时间之外的往事二 为什么block使用copy？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E5%95%8A"><span class="nav-number">8.</span> <span class="nav-text">总结一下啊</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">大福禄</p>
+  <div class="site-description" itemprop="description">书中自有颜如玉</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/11/17/ios%E9%87%8C%E7%9A%84copy%E5%92%8CmutableCopy%E8%AE%B0%E5%BD%95%E6%8B%BE%E9%81%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="大福禄">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="葫芦小金刚">
+      <meta itemprop="description" content="书中自有颜如玉">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ios里的copy和mutableCopy记录拾遗ss | 葫芦小金刚">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ios里的copy和mutableCopy记录拾遗ss
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-17 16:32:25" itemprop="dateCreated datePublished" datetime="2022-11-17T16:32:25+08:00">2022-11-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-11-29 14:48:45" itemprop="dateModified" datetime="2022-11-29T14:48:45+08:00">2022-11-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><h4 id="1-深浅拷贝"><a href="#1-深浅拷贝" class="headerlink" title="1.深浅拷贝"></a>1.深浅拷贝</h4><h4 id="2-copy和mutableCopy介绍和用法"><a href="#2-copy和mutableCopy介绍和用法" class="headerlink" title="2.copy和mutableCopy介绍和用法"></a>2.copy和mutableCopy介绍和用法</h4><h4 id="3-为什么修饰block用copy"><a href="#3-为什么修饰block用copy" class="headerlink" title="3.为什么修饰block用copy"></a>3.为什么修饰block用copy</h4><h4 id="4-声明Nsarray和NSMutableArray变量时-哪个更适用copy修饰"><a href="#4-声明Nsarray和NSMutableArray变量时-哪个更适用copy修饰" class="headerlink" title="4.声明Nsarray和NSMutableArray变量时,哪个更适用copy修饰."></a>4.声明Nsarray和NSMutableArray变量时,哪个更适用copy修饰.</h4><h4 id="5-总结"><a href="#5-总结" class="headerlink" title="5.总结"></a>5.总结</h4><h3 id="一、深浅拷贝"><a href="#一、深浅拷贝" class="headerlink" title="一、深浅拷贝"></a>一、深浅拷贝</h3><ul>
+<li>1.什么是深拷贝,什么是浅拷贝<blockquote>
+<p><strong>深拷贝</strong>:<br>拷贝出来的对象与源对象地址不一样! 这意味着我们修改拷贝对象对源对象没有任何影响.<br><strong>浅拷贝</strong>:<br>拷贝的是指针地址,拷贝的对象与源对象地址一致! 此时我们修改拷贝对象就是修改源对象.</p>
+</blockquote>
+</li>
+<li>2.有些错误的观点:</li>
+</ul>
+<h6 id="copy就是浅拷贝-mutableCopy就是深拷贝-事实上-copy"><a href="#copy就是浅拷贝-mutableCopy就是深拷贝-事实上-copy" class="headerlink" title="copy就是浅拷贝,mutableCopy就是深拷贝. 事实上,copy"></a>copy就是浅拷贝,mutableCopy就是深拷贝. 事实上,copy</h6><ul>
+<li>3.针对NSArray、NSDictonary、NSSet等容器类的对象,拷贝可以分为:<strong>“不完全深拷贝”</strong>和<strong>“完全深拷贝”</strong>.<br><strong>不完全深拷贝</strong>:拷贝出来的容器是新的对象,但是容器里面的对象还是原来的对象<br><strong>完全深拷贝</strong>:拷贝出来的容器是新的容器,里面的对象也是新的对象.</li>
+</ul>
+<h3 id="二、copy和mutableCopy的介绍和用法"><a href="#二、copy和mutableCopy的介绍和用法" class="headerlink" title="二、copy和mutableCopy的介绍和用法"></a>二、copy和mutableCopy的介绍和用法</h3><ul>
+<li>1、看看官方文档的说明<blockquote>
+<p><strong>copy (是NSCopying协议的方法)</strong><br><strong>‘’Return the object returned by copyWithZone:’’</strong><br>翻译:返回的对象是通过调用copyWithZone:这个方法返回的.</p>
+</blockquote>
+</li>
+</ul>
+<p>看了对copy的解释,就可以知道调用<strong>copy</strong>实际上是调用**copyWithZone:**这个方法,也可以说copy是copyWithZone的简写,为了方便调用.为了知道copy,我们需要知道copyWithZone的用法,<br>这个方法的官档如下:</p>
+<blockquote>
+<h4 id="copyWithZone"><a href="#copyWithZone" class="headerlink" title="copyWithZone:"></a>copyWithZone:</h4><p>“Returns a new instance that’s a copy of the receiver.”<br>翻译：返回一个新的实例，这个实例是接收器的副本。</p>
+<p>再看看官方文档对这个方法的讨论<br><strong>“The returned object is implicitly retained by the sender, who is responsible for releasing it. The copy returned is immutable if the consideration “immutable vs. mutable” applies to the receiving object; otherwise the exact nature of the copy is determined by the class.”</strong></p>
+<p>大意: 发送者隐式的保留这个的对象,同时也负责这个返回对象的释放工作.**无论接收器的对象是“可变的”或者“不可变的”,使用这个方法,返回的对象都是不可变的.**否则,拷贝对象的确切特性将由被拷贝的对象的类决定.</p>
+</blockquote>
+<p>在通俗的解释下,一般情况下,使用copy拷贝的对象都是不可变的,无论是拷贝可变对象还是不可变对象.最后一句说的是copy的具体特性由被拷贝的对象决定,就是说有可能copy的对象是可变.👇下面会有例子.</p>
+<ul>
+<li>2.再看看mutableCopy的说明<blockquote>
+<h4 id="mutableCopy-是NSMutableCopy协议的方法"><a href="#mutableCopy-是NSMutableCopy协议的方法" class="headerlink" title="mutableCopy(是NSMutableCopy协议的方法)"></a>mutableCopy(是NSMutableCopy协议的方法)</h4><p><strong>“A protocol that mutable objects adopt to provide functional copies of themselves”</strong><br>可变对象采用的协议,用于提供自身的功能副本.</p>
+</blockquote>
+</li>
+</ul>
+<p>mutableCopy和copy很相似.mutableCopy是mutableCopyWithZone的简写形式,我们再来看看官方文档是怎样描述mutableCopyWithZone的.</p>
+<blockquote>
+<h4 id="mutableCopyWithZone"><a href="#mutableCopyWithZone" class="headerlink" title="mutableCopyWithZone:"></a>mutableCopyWithZone:</h4><p>Returns a new instance that’s a mutable copy of the receiver.<br>返回一个新的实例,这是一个可变的接收器的副本.<br>再看看官方文档对这个方法的解释<br><strong>The returned object is implicitly retained by the sender,which is responsible for releasing it.The copy returned is mutabled whether the original is mutable or not.</strong><br>大意:返回的对象由发送方隐式保留，发送方负责释放它。无论原始副本是否可变，返回的副本都是可变的</p>
+</blockquote>
+<p>只有定义“可变与不可变”区别的类才能应用此协议(NSMutableCopying)协议,也即只有定义可变与不可变的类,才可以使用mutablecopy.</p>
+<h4 id="举例说明用法"><a href="#举例说明用法" class="headerlink" title="举例说明用法:"></a>举例说明用法:</h4><ul>
+<li>1.NSString,NSMutableString的copy和mutableCopy<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">    NSString * imtableString = @"这是一个不可变字符串";</span><br><span class="line">    id immutableSting_copy = [imtableString copy];</span><br><span class="line">    id immutableSting_mutablecopy = [imtableString mutableCopy];</span><br><span class="line">//    immutableSting_copy = @"这是一个不可变字符串吗?";</span><br><span class="line">//    immutableSting_mutablecopy = @"是的 这是一个不可变字符串";</span><br><span class="line">    //可变字符</span><br><span class="line">    NSMutableString * mutableStr = [[NSMutableString alloc] initWithString:@"这是一个可变字符串"];</span><br><span class="line">    id mutable_copy = [mutableStr copy];</span><br><span class="line">    id mutable_mutableCopy = [mutableStr mutableCopy];</span><br><span class="line">//    mutable_copy = @"这是一个可变字符串吗?";</span><br><span class="line">//    mutable_mutableCopy = @"是的 这是一个可变字符串";</span><br><span class="line"></span><br><span class="line">    NSLog(@"imtableString = %@",imtableString);</span><br><span class="line">    NSLog(@"immutableSting_copy = %@",immutableSting_copy);</span><br><span class="line">    NSLog(@"immutableSting_mutablecopy = %@",immutableSting_mutablecopy);</span><br><span class="line">    NSLog(@"mutableStr = %@",mutableStr);</span><br><span class="line">    NSLog(@"mutable_copy = %@",mutable_copy);</span><br><span class="line">    NSLog(@"mutable_mutableCopy = %@",mutable_mutableCopy);</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">不可变字符串打印</span><br><span class="line">(lldb) p imtableString</span><br><span class="line">(__NSCFConstantString *) $0 = 0x00000001026b0438 @"这是一个不可变字符串"</span><br><span class="line">(lldb) p immutableSting_copy</span><br><span class="line">(__NSCFConstantString *) $1 = 0x00000001026b0438 @"这是一个不可变字符串"</span><br><span class="line">(lldb) p immutableSting_mutablecopy</span><br><span class="line">(__NSCFString *) $2 = 0x0000000281cd4510 @"这是一个不可变字符串"</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">可变字符串打印</span><br><span class="line">(lldb) p mutableStr</span><br><span class="line">(__NSCFString *) $3 = 0x0000000281cd4750 @"这是一个可变字符串"</span><br><span class="line">(lldb) p mutable_copy</span><br><span class="line">(__NSCFString *) $4 = 0x0000000281cd44b0 @"这是一个可变字符串"</span><br><span class="line">(lldb) p mutable_mutableCopy</span><br><span class="line">(__NSCFString *) $5 = 0x0000000281cd45a0 @"这是一个可变字符串"</span><br></pre></td></tr></tbody></table></figure>
+<p>从控制台来看,可以看出对于可变和不可变字符串copy和mutablecopy的规律<br><strong>NSString 类型的字符串:string</strong><br>[string copy]————————–&gt;NSString类型(浅拷贝)<br>[string mutableCopy]——————&gt;NSMutableString类型(深拷贝)<br><strong>NSMutableString类型的字符串:mString</strong><br>[mString copy]————————&gt;NSMutableString类型(深拷贝)<br>[mString mutableCopy]—————-&gt;NSMutableString类型(深拷贝)</p>
+<ul>
+<li>2.容器类型以数组举例:NSArray和NSMutableArray的copy和mutableCopy,来看看<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">NSDate * a1 = [NSDate date];</span><br><span class="line">NSDate * a2 = [NSDate date];</span><br><span class="line">//不可变数组</span><br><span class="line">NSArray * arr = [NSArray arrayWithObjects:a1,a2, nil];</span><br><span class="line">id arr_copy = [arr copy];</span><br><span class="line">id arr_mutableCopy = [arr mutableCopy];</span><br><span class="line">NSLog(@"arr=%p 、arr_copy=%p",arr,arr_copy);</span><br><span class="line">NSLog(@"arr[0]=%p、 arr_copy[0]=%p",arr[0],arr_copy[0]);</span><br><span class="line">NSMutableArray * mArr = [NSMutableArray arrayWithObjects:a1,a2, nil];</span><br><span class="line">id mArr_copy = [mArr copy];</span><br><span class="line">id mArr_mutableCopy = [mArr mutableCopy];</span><br><span class="line">NSLog(@"mArr=%p 、mArr_copy=%p",mArr,mArr_copy);</span><br><span class="line">NSLog(@"mArr[0]=%p、 mArr_copy[0]=%p",mArr[0],mArr_copy[0]);</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">可以看到,可变数组copy之后产生了一个新容器数组</span><br><span class="line">arr=0x280a0c240 、arr_copy=0x280a0c240</span><br><span class="line">arr[0]=0x83e97789a796f0a1、 arr_copy[0]=0x83e97789a796f0a1</span><br><span class="line">mArr=0x280444060 、mArr_copy=0x280a0c020</span><br><span class="line">mArr[0]=0x83e97789a796f0a1、 mArr_copy[0]=0x83e97789a796f0a1</span><br><span class="line">(lldb) p arr</span><br><span class="line">(__NSArrayI *) $0 = 0x0000000280a0c240 @"2 elements"</span><br><span class="line">(lldb) po arr</span><br><span class="line">&lt;__NSArrayI 0x280a0c240&gt;(</span><br><span class="line">2022-11-29 06:19:28 +0000,</span><br><span class="line">2022-11-29 06:19:28 +0000</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(lldb) po arr_copy</span><br><span class="line">&lt;__NSArrayI 0x280a0c240&gt;(</span><br><span class="line">2022-11-29 06:19:28 +0000,</span><br><span class="line">2022-11-29 06:19:28 +0000</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(lldb) po arr_mutableCopy</span><br><span class="line">&lt;__NSArrayM 0x2804440c0&gt;(</span><br><span class="line">2022-11-29 06:19:28 +0000,</span><br><span class="line">2022-11-29 06:19:28 +0000</span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">可变数组都产生了新容器,但是里面的内容没有拷贝,</span><br><span class="line">特别注意NSMutableArray的copy之后产生的新容器是__NSArrayI,也就是不可变数组容器,所以可变数组修饰词最好用strong.</span><br><span class="line">(lldb) po mArr</span><br><span class="line">&lt;__NSArrayM 0x280444060&gt;(</span><br><span class="line">2022-11-29 06:19:28 +0000,</span><br><span class="line">2022-11-29 06:19:28 +0000</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(lldb) po mArr_copy</span><br><span class="line">&lt;__NSArrayI 0x280a0c020&gt;(</span><br><span class="line">2022-11-29 06:19:28 +0000,</span><br><span class="line">2022-11-29 06:19:28 +0000</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">(lldb) po mArr_mutableCopy</span><br><span class="line">&lt;__NSArrayM 0x280444000&gt;(</span><br><span class="line">2022-11-29 06:19:28 +0000,</span><br><span class="line">2022-11-29 06:19:28 +0000</span><br><span class="line">)</span><br></pre></td></tr></tbody></table></figure>
+<p>从控制台来看,可以看出对于可变和不可变字数组copy和mutablecopy的规律</p>
+<h4 id="NSArray类型的数组-arr"><a href="#NSArray类型的数组-arr" class="headerlink" title="NSArray类型的数组:arr"></a>NSArray类型的数组:arr</h4><p>[arr copy]—————————-&gt;NSArray(浅拷贝NSArrayI)<br>[arr mutableCopy]——————–&gt;NSmutableArray(深拷贝NSArrayM)</p>
+<h4 id="NSMutableArray类型的数组-mArr"><a href="#NSMutableArray类型的数组-mArr" class="headerlink" title="NSMutableArray类型的数组:mArr"></a>NSMutableArray类型的数组:mArr</h4><p>[mArr copy]————————–&gt;NSArray(深拷贝为新的NSArrayI)<br>[mArr mutableCopy]————————–&gt;NSMutableArray(深拷贝NSArrayM)</p>
+<h3 id="无论深浅拷贝，集合对象内元素都是浅拷贝"><a href="#无论深浅拷贝，集合对象内元素都是浅拷贝" class="headerlink" title="无论深浅拷贝，集合对象内元素都是浅拷贝"></a>无论深浅拷贝，集合对象内元素都是浅拷贝</h3><p>对于容器类型的深拷贝可分为:<strong>完全深拷贝和不完全深拷贝</strong><br>**这里大家要注意,不同对象调用copy得到的结果不一样.**正如官方文档所说:<strong>否则,拷贝对象的确切特性由被拷贝的对象的类决定.</strong></p>
+<h3 id="总之-copy一般情况下是浅拷贝-但是在一些情况下-copy又是深拷贝"><a href="#总之-copy一般情况下是浅拷贝-但是在一些情况下-copy又是深拷贝" class="headerlink" title="总之,copy一般情况下是浅拷贝,但是在一些情况下,copy又是深拷贝."></a>总之,copy一般情况下是浅拷贝,但是在一些情况下,copy又是深拷贝.</h3><p>下面举个例子证明一下:<br>重写了copyWithZone方法的自定义对象,copy是(单层)深拷贝.<br>这次数组里面的元素是自定义类型的类对象</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//  Created by 华闻期货 on 2022/11/23.</span><br><span class="line">//.h文件</span><br><span class="line">@interface User : NSObject</span><br><span class="line">@property(nonatomic,copy)NSString * name;</span><br><span class="line">@property(nonatomic,copy)NSString * professional;</span><br><span class="line">@property(nonatomic,assign)NSInteger age;</span><br><span class="line">@property(nonatomic,copy)NSString * hobbies;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">#import "User.h"</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line"></span><br><span class="line">@interface User ()&lt;NSCopying,NSMutableCopying,NSCoding&gt;</span><br><span class="line">@end</span><br><span class="line">@implementation User</span><br><span class="line">/*————————————重写copy——————————*/</span><br><span class="line">- (id)copyWithZone:(NSZone *)zone {</span><br><span class="line">    User *test = [[User allocWithZone:zone]init];</span><br><span class="line">    test.name = [self.name copy];</span><br><span class="line">    test.professional = [self.professional copy];</span><br><span class="line">    test.age = self.age;</span><br><span class="line">    test.hobbies = [self.hobbies copy];</span><br><span class="line">        return test;</span><br><span class="line">}</span><br><span class="line">- (id)mutableCopyWithZone:(NSZone *)zone {</span><br><span class="line">    User *test = [User allocWithZone:zone];</span><br><span class="line">    test.name = [self.name mutableCopy];</span><br><span class="line">    test.professional = [self.professional mutableCopy];</span><br><span class="line">    test.age = self.age;</span><br><span class="line">    test.hobbies = [self.hobbies mutableCopy];</span><br><span class="line">    return test;</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>测试代码:</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">    User * a1 = [[User alloc] init];</span><br><span class="line">    a1.name = @"小明";</span><br><span class="line">    a1.professional = @"奥特曼";</span><br><span class="line">    a1.age = 32;</span><br><span class="line">    a1.hobbies = @"看书";</span><br><span class="line">//    两种写法不一样 array1是NSArray的话,[array1 copy] 是浅拷贝</span><br><span class="line">//    array1是NSMutableArray的话,[array1 copy] 是深拷贝</span><br><span class="line">//    NSArray *array1 = [NSArray arrayWithObjects:a1, nil];</span><br><span class="line">    NSMutableArray *array1 = [NSMutableArray arrayWithObjects:a1, nil];</span><br><span class="line">    </span><br><span class="line">    NSArray *array2 = [array1 copy];</span><br><span class="line">    NSMutableArray *array3 = [array1 mutableCopy];</span><br><span class="line">    NSMutableArray *array4 = [[NSMutableArray alloc] initWithArray:array1 copyItems:true];</span><br><span class="line">    NSMutableArray *array5 = [[NSMutableArray alloc] initWithObjects:[array1[0] copy], nil];</span><br><span class="line">    NSMutableArray *array6 = [[NSMutableArray alloc] initWithObjects:[array1[0] mutableCopy], nil];</span><br><span class="line">    </span><br><span class="line">    NSLog(@"\n array1 = %p class = %@", array1, [array1 class]);</span><br><span class="line">    NSLog(@"\n array2 = %p class = %@", array2, [array2 class]);</span><br><span class="line">    NSLog(@"\n array3 = %p class = %@", array3, [array3 class]);</span><br><span class="line">    NSLog(@"\n array4 = %p class = %@", array4, [array4 class]);</span><br><span class="line">    NSLog(@"\n array5 = %p class = %@", array5, [array5 class]);</span><br><span class="line">    NSLog(@"\n array6 = %p class = %@", array6, [array6 class]);</span><br><span class="line">    </span><br><span class="line">    NSLog(@"\n\n======== 数组内元素 ========");</span><br><span class="line">    User *orgArrayObj = (User *)array1[0];</span><br><span class="line">    User *newArrayObj2 = (User *)array2[0];</span><br><span class="line">    User *newArrayObj3 = (User *)array3[0];</span><br><span class="line">    User *newArrayObj4 = (User *)array4[0];</span><br><span class="line">    User *newArrayObj5 = (User *)array5[0];</span><br><span class="line">    User *newArrayObj6 = (User *)array6[0];</span><br><span class="line">    NSLog(@"\n array1[0] = %p nickname = %p", orgArrayObj, orgArrayObj.name);</span><br><span class="line">    NSLog(@"\n array2[0] = %p nickname = %p", newArrayObj2, newArrayObj2.name);</span><br><span class="line">    NSLog(@"\n array3[0] = %p nickname = %p", newArrayObj3, newArrayObj3.name);</span><br><span class="line">    NSLog(@"\n array4[0] = %p nickname = %p", newArrayObj4, newArrayObj4.name);</span><br><span class="line">    NSLog(@"\n array5[0] = %p nickname = %p", newArrayObj5, newArrayObj5.name);</span><br><span class="line">    NSLog(@"\n array6[0] = %p nickname = %p", newArrayObj6, newArrayObj6.name);</span><br></pre></td></tr></tbody></table></figure>
+
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">容器全部为深拷贝</span><br><span class="line"> array1 = 0x28041c0f0 class = __NSArrayM</span><br><span class="line"></span><br><span class="line"> array2 = 0x280868020 class = __NSSingleObjectArrayI</span><br><span class="line"></span><br><span class="line"> array3 = 0x28041c120 class = __NSArrayM</span><br><span class="line"></span><br><span class="line"> array4 = 0x280428510 class = __NSArrayM</span><br><span class="line"></span><br><span class="line"> array5 = 0x2804283c0 class = __NSArrayM</span><br><span class="line"></span><br><span class="line"> array6 = 0x280428330 class = __NSArrayM</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">======== 数组内元素 ========</span><br><span class="line">内容为浅拷贝</span><br><span class="line"> array1[0] = 0x28041c030 name = 0x10431c478</span><br><span class="line"></span><br><span class="line"> array2[0] = 0x28041c030 name = 0x10431c478</span><br><span class="line"></span><br><span class="line"> array3[0] = 0x28041c030 name = 0x10431c478</span><br><span class="line"></span><br><span class="line"> array4[0] = 0x2804280c0 name = 0x10431c478</span><br><span class="line"></span><br><span class="line"> array5[0] = 0x280428090 name = 0x10431c478</span><br><span class="line"></span><br><span class="line"> array5[0] = 0x280428090 hobby = 0x10431c4b8</span><br><span class="line">内容为深拷贝</span><br><span class="line"> array6[0] = 0x280428270 name = 0x280a540a0</span><br></pre></td></tr></tbody></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/1761100-b1394fe82be744d5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="打印"><br>对于重写了copyWithZone、mutableWithZone的自定义对象装在NSMutableArray里</p>
+<ul>
+<li>[array copy]、[array mutableCopy]只是深拷贝了容器array对象,元素是浅拷贝;</li>
+<li>[initWithArray:array1 copyItems:]生成了新的array, 且array内元素User是深拷贝,但是User的属性仍然是浅拷贝(注意:此处属性浅拷贝是因为:name是NSString对象,copyItems调用的是copyWithZone,[NSSring copy]是浅拷贝)</li>
+<li>通过遍历array,对User分别拷贝,会调用User的copyWithZone,此时NSArray是深拷贝,NSArray内元素user是深拷贝,user的属性参数是否是深拷贝,取决于属性的类型(NSString浅拷贝,NSMutableString深拷贝)<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">array1[0] = 0x2810415f0 name = 0x1047f4438</span><br><span class="line"></span><br><span class="line"> array2[0] = 0x2810415f0 name = 0x1047f4438</span><br><span class="line"></span><br><span class="line"> array3[0] = 0x2810415f0 name = 0x1047f4438</span><br><span class="line"></span><br><span class="line"> array4[0] = 0x281041770 name = 0x1047f4438</span><br><span class="line"></span><br><span class="line"> array5[0] = 0x2810418f0 name = 0x1047f4438</span><br><span class="line">hobby是@property(nonatomic,copy)NSMutableString * hobbies;</span><br><span class="line"> array5[0] = 0x2810418f0 hobby = 0x1047f4478</span><br></pre></td></tr></tbody></table></figure></li>
+<li>通过遍历array,对user分别mutableCopy,会调用user的mutableCopyWithZone,此时NSarray是深拷贝,NSArray内元素是深拷贝,元素的属性参数也是深拷贝.</li>
+</ul>
+<h5 id="此时我们可知-要对自定义对象深拷贝-解决方案是重写copyWithZone、mutableCopyWithZone-调用对应方法-还有一种方式-归档"><a href="#此时我们可知-要对自定义对象深拷贝-解决方案是重写copyWithZone、mutableCopyWithZone-调用对应方法-还有一种方式-归档" class="headerlink" title="此时我们可知,要对自定义对象深拷贝,解决方案是重写copyWithZone、mutableCopyWithZone,调用对应方法.还有一种方式:归档"></a>此时我们可知,要对自定义对象深拷贝,解决方案是重写copyWithZone、mutableCopyWithZone,调用对应方法.还有一种方式:归档</h5><ul>
+<li>3 用归档的方式深拷贝自定义对象<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">#import "User.h"</span><br><span class="line">#import &lt;objc/runtime.h&gt;</span><br><span class="line"></span><br><span class="line">@interface User ()&lt;NSCopying,NSMutableCopying,NSCoding&gt;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line">@implementation User</span><br><span class="line">- (void)encodeWithCoder:(NSCoder *)aCoder {</span><br><span class="line">    unsigned int count;</span><br><span class="line">    Ivar *ivar = class_copyIvarList([self class], &amp;count);</span><br><span class="line">    for (int i = 0 ; i &lt; count ; i++) {</span><br><span class="line">        Ivar iv = ivar[i];</span><br><span class="line">        const char *name = ivar_getName(iv);</span><br><span class="line">        NSString *strName = [NSString stringWithUTF8String:name];</span><br><span class="line">        //利用KVC取值</span><br><span class="line">        id value = [self valueForKey:strName];</span><br><span class="line">        [aCoder encodeObject:value forKey:strName];</span><br><span class="line">    }</span><br><span class="line">    free(ivar);</span><br><span class="line">}</span><br><span class="line">- (instancetype)initWithCoder:(NSCoder *)aDecoder {</span><br><span class="line">    User *test = [[User alloc]init];</span><br><span class="line">    if (self != nil) {</span><br><span class="line">        unsigned int count = 0;</span><br><span class="line">        Ivar *ivar = class_copyIvarList([self class], &amp;count);</span><br><span class="line">        for (int i= 0 ;i &lt; count ; i++) {</span><br><span class="line">            Ivar var = ivar[i];</span><br><span class="line">            const char *keyName = ivar_getName(var);</span><br><span class="line">            NSString *key = [NSString stringWithUTF8String:keyName];</span><br><span class="line">            id value = [aDecoder decodeObjectForKey:key];</span><br><span class="line">            [test setValue:value forKey:key];</span><br><span class="line">        }</span><br><span class="line">        free(ivar);</span><br><span class="line">    }</span><br><span class="line">    return test;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">- (void)dealloc {</span><br><span class="line">    NSLog(@"User-dealloc");</span><br><span class="line">}</span><br><span class="line">@end</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<h5 id="测试代码"><a href="#测试代码" class="headerlink" title="测试代码:"></a>测试代码:</h5><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//归档深拷贝测试</span><br><span class="line">NSMutableArray * array1 = [NSMutableArray arrayWithObjects:a1, nil];</span><br><span class="line">NSData * data = [NSKeyedArchiver archivedDataWithRootObject:array1];</span><br><span class="line">NSMutableArray * array2 = [NSKeyedUnarchiver unarchiveObjectWithData:data];</span><br><span class="line"></span><br><span class="line">NSLog(@"\n array1 = %p,class1 = %@",array1,[array1 class]);</span><br><span class="line">NSLog(@"\n array2 = %p,class2 = %@",array2,[array2 class]);</span><br><span class="line"></span><br><span class="line">NSLog(@"\n----------数组内元素是否深拷贝------------\n");</span><br><span class="line">User * orgArrayObj = (User *)array1[0];</span><br><span class="line">User * newArrayObj2 = (User *)array2[0];</span><br><span class="line">NSLog(@"array1[0]= %p,name = %p",orgArrayObj,orgArrayObj.name);</span><br><span class="line">NSLog(@"array2[0]= %p,name = %p",newArrayObj2,newArrayObj2.name);</span><br></pre></td></tr></tbody></table></figure>
+<h5 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果:"></a>测试结果:</h5><figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">2022-11-28 14:01:18.504350+0800 Set[1177:47745] User-dealloc</span><br><span class="line"></span><br><span class="line"> array1 = 0x2809c9380,class1 = __NSArrayM</span><br><span class="line"></span><br><span class="line"> array2 = 0x2809c9170,class2 = __NSArrayM</span><br><span class="line"></span><br><span class="line">----------数组内元素是否深拷贝------------</span><br><span class="line"></span><br><span class="line">array1[0]= 0x2809c9320,name = 0x102748438</span><br><span class="line">array2[0]= 0x2809c9350,name = 0x2807fefa0</span><br></pre></td></tr></tbody></table></figure>
+<p><font color="#dd0000"> 很明显,不仅数组本身被深拷贝了,数组里面的自定义对象属性都被深拷贝了 </font></p>
+<h3 id="时间之外的往事-声明Nsarray和NSMutableArray变量时-哪个更适用copy修饰"><a href="#时间之外的往事-声明Nsarray和NSMutableArray变量时-哪个更适用copy修饰" class="headerlink" title="时间之外的往事  声明Nsarray和NSMutableArray变量时,哪个更适用copy修饰."></a>时间之外的往事  声明Nsarray和NSMutableArray变量时,哪个更适用copy修饰.</h3><ul>
+<li><p>1.如果使用strong来修饰NSArray类型的数组，当array的数组被赋值了可变数组对象时，当可变数组改变时，NSArray数组里的对象也会跟着改变，这是我们不想要的结果。使用copy修饰，在被赋值可变数组时，会生成一个新的不可变数组对象，这样可变数组之后怎样变化，都不会影响NSArray类型的数组对象。</p>
+</li>
+<li><p>2.使用strong来修饰NSMutableArray类型的数组，当mArray的数组被赋值了可变数组对象时，当可变数组改变时，NSMutableArray数组里的对象也会跟着改变，这是符合我们预期的。当使用copy修饰后，被赋值后，会生成一个新的不可变数组对象。这样我们还以为它是可变类型的数组，然后使用增删改查，就会crash，也谈不上可以改变数组对象了。</p>
+</li>
+<li><p>3.综上，用property声明NSArray数组时，最好使用copy。用property声明NSMutableArray数组时，最好使用strong。如果使用copy，又self.mArr来赋值，后面增删改查，程序肯定会crash的。</p>
+</li>
+</ul>
+<h3 id="时间之外的往事二-为什么block使用copy？"><a href="#时间之外的往事二-为什么block使用copy？" class="headerlink" title="时间之外的往事二 为什么block使用copy？"></a>时间之外的往事二 为什么block使用copy？</h3><ul>
+<li>block是一个对象, 所以block理论上是可以retain/release的. 但是block在创建的时候它的内存是默认是分配在栈(stack)上, 而不是堆(heap)上的. 所以它的作用域仅限创建时候的当前上下文(函数, 方法…), 当你在该作用域外调用该block时, 程序就会崩溃.</li>
+<li>其实block使用copy是MRC时代留下来的传统。 在MRC下, 在方法中的block创建在栈区, 使用copy就能把他放到堆区, 这样在作用域外调用该block程序就不会崩溃. 但在ARC下, 使用copy与strong其实都一样, 因为block的retain就是用copy来实现的。之所以大家都习惯用copy就是MRC时代留下的习惯。</li>
+</ul>
+<h3 id="总结一下啊"><a href="#总结一下啊" class="headerlink" title="总结一下啊"></a>总结一下啊</h3><ul>
+<li>copy: 对NSArray对象是浅拷贝,对NSMutableArray对象是深拷贝</li>
+<li>mutableCopy是深拷贝.<font color="dd0000">注意这些都是单层深拷贝</font></li>
+<li>要实现array内元素深拷贝,本质是元素全部进行深拷贝</li>
+<li>initWithArray:array1 copyItems:生成了新的array,copyItems:true 只是调用了array的copyWithZone方法,array内元素是浅拷贝.</li>
+<li>通过遍历array,对User分别拷贝,会调用User的copyWithZone,此时NSArray是深拷贝,NSArray内元素user是深拷贝,user的属性参数是否是深拷贝,取决于属性的类型(NSString浅拷贝,NSMutableString深拷贝)</li>
+<li>通过遍历array,对user分别mutableCopy,会调用user的mutableCopyWithZone,此时NSarray是深拷贝,NSArray内元素是深拷贝,元素的属性参数也是深拷贝.</li>
+<li>通过归解档的方式,可以实现对array、array内元素属性深拷贝.</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/26/%E7%8A%B6%E6%80%81%E6%A0%8F%E6%8B%BE%E9%81%97/" rel="prev" title="状态栏拾遗">
+                  <i class="fa fa-chevron-left"></i> 状态栏拾遗
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/23/ios%E4%B9%8B%E4%BD%BF%E7%94%A8RTSP%E6%B5%81%E5%81%9A%E7%9B%91%E6%8E%A7%E6%88%96%E7%9B%B4%E6%92%AD%E8%A7%86%E9%A2%91/" rel="next" title="ios之使用RTSP流做监控或直播视频">
+                  ios之使用RTSP流做监控或直播视频 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大福禄</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

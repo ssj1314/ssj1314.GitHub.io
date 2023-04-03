@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha256-xejo6yLi6vGtAjcMIsY8BHdKsLg7QynVlFMzdQgUuy8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ssj1314.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="highlight: a11y-dark 一、异变方法 二、方法调度 Mahco: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift第一节课类与结构体2">
+<meta property="og:url" content="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%932/index.html">
+<meta property="og:site_name" content="葫芦小金刚">
+<meta property="og:description" content="highlight: a11y-dark 一、异变方法 二、方法调度 Mahco: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/55d2443580c04b64b80683d6a9a4cfb5~tplv-k3u1fbpfcp-watermark.image">
+<meta property="article:published_time" content="2022-09-02T01:03:44.000Z">
+<meta property="article:modified_time" content="2022-09-09T07:55:00.819Z">
+<meta property="article:author" content="大福禄">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/55d2443580c04b64b80683d6a9a4cfb5~tplv-k3u1fbpfcp-watermark.image">
+
+
+<link rel="canonical" href="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%932/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%932/","path":"2022/09/02/Swift第一节课类与结构体2/","title":"Swift第一节课类与结构体2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Swift第一节课类与结构体2 | 葫芦小金刚</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">葫芦小金刚</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">宋帅杰</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#highlight-a11y-dark"><span class="nav-number">1.</span> <span class="nav-text">highlight: a11y-dark</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%BC%82%E5%8F%98%E6%96%B9%E6%B3%95"><span class="nav-number"></span> <span class="nav-text">一、异变方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%96%B9%E6%B3%95%E8%B0%83%E5%BA%A6"><span class="nav-number"></span> <span class="nav-text">二、方法调度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mahco-Mach-O-%E5%85%B6%E5%AE%9E%E6%98%AFMach-Object%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E7%9A%84%E7%BC%A9%E5%86%99%EF%BC%8C%E6%98%AF-mac-%E4%BB%A5%E5%8F%8A-iOS-%E4%B8%8A%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E6%A0%BC%E5%BC%8F%EF%BC%8C-%E7%B1%BB%E4%BC%BC%E4%BA%8E-windows-%E4%B8%8A%E7%9A%84-PE-%E6%A0%BC%E5%BC%8F-Portable-Executable-linux-%E4%B8%8A%E7%9A%84-elf-%E6%A0%BC%E5%BC%8F-Executableand-Linking-Format-%E3%80%82%E5%B8%B8%E8%A7%81%E7%9A%84-o%EF%BC%8C-a-dylib-Framework%EF%BC%8Cdyld-dsym%E3%80%82"><span class="nav-number">0.1.</span> <span class="nav-text">Mahco: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .dylib Framework，dyld .dsym。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%BD%B1%E5%93%8D%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%96%B9%E5%BC%8F"><span class="nav-number"></span> <span class="nav-text">三、影响函数派发方式</span></a></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">大福禄</p>
+  <div class="site-description" itemprop="description">书中自有颜如玉</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%932/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="大福禄">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="葫芦小金刚">
+      <meta itemprop="description" content="书中自有颜如玉">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Swift第一节课类与结构体2 | 葫芦小金刚">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Swift第一节课类与结构体2
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-09-02 09:03:44" itemprop="dateCreated datePublished" datetime="2022-09-02T09:03:44+08:00">2022-09-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-09-09 15:55:00" itemprop="dateModified" datetime="2022-09-09T15:55:00+08:00">2022-09-09</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <hr>
+<h2 id="highlight-a11y-dark"><a href="#highlight-a11y-dark" class="headerlink" title="highlight: a11y-dark"></a>highlight: a11y-dark</h2><ul>
+<li><a href="#%E4%B8%80%E5%BC%82%E5%8F%98%E6%96%B9%E6%B3%95">一、异变方法</a></li>
+<li><a href="#%E4%BA%8C%E6%96%B9%E6%B3%95%E8%B0%83%E5%BA%A6">二、方法调度</a><ul>
+<li><a href="#mahco-mach-o-%E5%85%B6%E5%AE%9E%E6%98%AFmach-object%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F%E7%9A%84%E7%BC%A9%E5%86%99%E6%98%AF-mac-%E4%BB%A5%E5%8F%8A-ios-%E4%B8%8A%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E6%A0%BC%E5%BC%8F-%E7%B1%BB%E4%BC%BC%E4%BA%8E-windows-%E4%B8%8A%E7%9A%84-pe-%E6%A0%BC%E5%BC%8F-portable-executable--linux-%E4%B8%8A%E7%9A%84-elf-%E6%A0%BC%E5%BC%8F-executableand-linking-format-%E5%B8%B8%E8%A7%81%E7%9A%84-oa-dylib-frameworkdyld-dsym"><strong>Mahco</strong>: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .dylib Framework，dyld .dsym。</a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%89%E5%BD%B1%E5%93%8D%E5%87%BD%E6%95%B0%E6%B4%BE%E5%8F%91%E6%96%B9%E5%BC%8F">三、影响函数派发方式</a><br>[TOC]</li>
+</ul>
+<h1 id="一、异变方法"><a href="#一、异变方法" class="headerlink" title="一、异变方法"></a>一、异变方法</h1><p>第一天我们了解到，Swift 中 class 和 struct 都能定义方法。但是有一点区别的是，默认情况下，值类型属性不能被自身的实例方法修改。</p>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> {</span><br><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">0.0</span>, y <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">moveBy</span>(<span class="params">x</span> <span class="params">deltaX</span>: <span class="type">Double</span>, <span class="params">y</span> <span class="params">deltaY</span>: <span class="type">Double</span>) {</span><br><span class="line"></span><br><span class="line"><span class="comment">//self</span></span><br><span class="line">x <span class="operator">+=</span> deltaX</span><br><span class="line">y <span class="operator">+=</span> deltaY</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+<p>通过 SIL 来对比一下，不添加 mutating 访问和添加 mutating 两者有什么本质的区别</p>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span> {</span><br><span class="line"><span class="keyword">var</span> x <span class="operator">=</span> <span class="number">0.0</span>, y <span class="operator">=</span> <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">test</span>(){</span><br><span class="line"><span class="keyword">let</span> tmp <span class="operator">=</span> <span class="keyword">self</span>.x</span><br><span class="line">}</span><br><span class="line"><span class="keyword">mutating</span> <span class="keyword">func</span> <span class="title function_">moveBy</span>(<span class="params">x</span> <span class="params">deltaX</span>: <span class="type">Double</span>, <span class="params">y</span> <span class="params">deltaY</span>: <span class="type">Double</span>) { </span><br><span class="line">    x <span class="operator">+=</span> deltaX</span><br><span class="line">    y <span class="operator">+=</span> deltaY</span><br><span class="line">   }</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<blockquote>
+<p>sil hidden [ossa] @$s4main5PointV4testyyF : $@convention(method) (Point) -&gt;<br>这是普通的<br>debug_value %0 : $Point, let, name “self”, argno 1 // id: %1</p>
+<p>sil hidden [ossa] @$s4main5PointV6moveBy1x1yySd_SdtF : $@convention(method)<br>这是加了mutating的<br>@inout Point<br>加了mutating的关键字多了一个 @inout关键字</p>
+</blockquote>
+<p>SIL 文档的解释</p>
+<p><code>An @inout parameter is indirect. The address must be of an initialized object.</code>（当前参数类型是间接的，传递的是已经初始化过的地址）</p>
+<p>异变方法的本质：对于变异方法, 传入的 self 被标记为 inout 参数。无论在 mutating 方法内部发生什么，都会影响外部依赖类型的一切。其实就是告诉外面，你拿的是我的根or源头，可以直接操作我。</p>
+<p><strong>输入输出参数</strong>：如果我们想函数能够修改一个形式参数的值，而且希望这些改变在函数结束之后依然生效，那么就需要将形式参数定义为 输入输出形式参数 。在形式参数定义开始的时候在前边添加一个 <code>inout</code>键字可以定义一个输入输出形式参数</p>
+<h1 id="二、方法调度"><a href="#二、方法调度" class="headerlink" title="二、方法调度"></a>二、方法调度</h1><p>//oc里是objc_mgsend</p>
+<p>我们先来看一下 Swift 中的方法调度</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">LGTeacher</span>{ func <span class="title function_">teach</span>(<span class="params"></span>){</span><br><span class="line"></span><br><span class="line"><span class="title function_">print</span>(<span class="string">"teach"</span>) }</span><br><span class="line"></span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> t = <span class="title class_">LGTeacher</span>() </span><br><span class="line">t.<span class="title function_">teach</span>()</span><br></pre></td></tr></tbody></table></figure>
+<p>teach函数的调用过程：找到 Metadata ，确定函数地址（metadata + 偏移量）， 执行函数基于函数表的调度之前我们在第一节课讲到了 Metdata 的数据结构，那么 V-Table 是存放在什么地方那？</p>
+<p>我们先来回顾一下当前的数据结构</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">struct <span class="title class_">Metadata</span>{</span><br><span class="line"><span class="keyword">var</span> <span class="attr">kind</span>: <span class="title class_">Int</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">superClass</span>: <span class="title class_">Any</span>.<span class="property">Type</span> <span class="keyword">var</span> <span class="attr">cacheData</span>: (<span class="title class_">Int</span>, <span class="title class_">Int</span>) <span class="keyword">var</span> <span class="attr">data</span>: <span class="title class_">Int</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">classFlags</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">instanceAddressPoint</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">instanceSize</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">instanceAlignmentMask</span>: <span class="title class_">UInt16</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">reserved</span>: <span class="title class_">UInt16</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">classSize</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">classAddressPoint</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">typeDescriptor</span>: <span class="title class_">UnsafeMutableRawPointer</span> <span class="keyword">var</span> <span class="attr">iVarDestroyer</span>: <span class="title class_">UnsafeRawPointer</span></span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<p>这里我们有一个东西需要关注 <code>typeDescriptor</code> ，不管是 Class ， Struct , Enum 都有自己的 Descriptor ，就是对类的一个详细描述</p>
+<figure class="highlight js"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">struct <span class="title class_">TargetClassDescriptor</span>{ <span class="keyword">var</span> <span class="attr">flags</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">parent</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">name</span>: <span class="title class_">Int32</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="attr">accessFunctionPointer</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">fieldDescriptor</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">superClassType</span>: <span class="title class_">Int32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">metadataNegativeSizeInWords</span>: <span class="title class_">UInt32</span> <span class="keyword">var</span> <span class="attr">metadataPositiveSizeInWords</span>: <span class="title class_">UInt32</span> <span class="keyword">var</span> <span class="attr">numImmediateMembers</span>: <span class="title class_">UInt32</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> <span class="attr">numFields</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">fieldOffsetVectorOffset</span>: <span class="title class_">UInt32</span> <span class="keyword">var</span> <span class="title class_">Offset</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="keyword">var</span> <span class="attr">size</span>: <span class="title class_">UInt32</span></span><br><span class="line"><span class="comment">//V-Table</span></span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h3 id="Mahco-Mach-O-其实是Mach-Object文件格式的缩写，是-mac-以及-iOS-上可执行文件的格式，-类似于-windows-上的-PE-格式-Portable-Executable-linux-上的-elf-格式-Executableand-Linking-Format-。常见的-o，-a-dylib-Framework，dyld-dsym。"><a href="#Mahco-Mach-O-其实是Mach-Object文件格式的缩写，是-mac-以及-iOS-上可执行文件的格式，-类似于-windows-上的-PE-格式-Portable-Executable-linux-上的-elf-格式-Executableand-Linking-Format-。常见的-o，-a-dylib-Framework，dyld-dsym。" class="headerlink" title="Mahco: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .dylib Framework，dyld .dsym。"></a><strong>Mahco</strong>: Mach-O 其实是Mach Object文件格式的缩写，是 mac 以及 iOS 上可执行文件的格式， 类似于 windows 上的 PE 格式 (Portable Executable ), linux 上的 elf 格式 (Executableand Linking Format) 。常见的 .o，.a .dylib Framework，dyld .dsym。</h3><p><img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/55d2443580c04b64b80683d6a9a4cfb5~tplv-k3u1fbpfcp-watermark.image" alt="WeChat2f0d6f00f519c9d2bb4d574053fd6aa3.png"></p>
+<p><strong>Mahoc文件格式：首先是文件头，表明该文件是 Mach-O 格式，指定目标架构，还有一些其他的文件属性信<br>息，文件头信息影响后续的文件结构安排 Load commands是一张包含很多内容的表。内容包括区域的位置、符号表、动态符号表等。</strong></p>
+<figure class="highlight swift"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">LC_SEGMENT_64</span> 将文件中（<span class="number">32</span>位或<span class="number">64</span>位）的段映射到进程地址空间中</span><br><span class="line"><span class="type">LC_DYLD_INFO_ONLY</span> 动态链接相关信息</span><br><span class="line"></span><br><span class="line"><span class="type">LC_SYMTAB</span> 符号地址</span><br><span class="line"></span><br><span class="line"><span class="type">LC_DYSYMTAB</span> 动态符号表地址</span><br><span class="line"></span><br><span class="line"><span class="type">LC_LOAD_DYLINKER</span> dyld加载</span><br><span class="line"></span><br><span class="line"><span class="type">LC_UUID</span> 文件的<span class="type">UUID</span></span><br><span class="line"></span><br><span class="line"><span class="type">LC_VERSION_MIN_MACOSX</span> 支持最低的操作系统版本</span><br><span class="line"></span><br><span class="line"><span class="type">LC_SOURCE_VERSION</span> 源代码版本</span><br><span class="line"></span><br><span class="line"><span class="type">LC_MAIN</span> 设置程序主线程的入口地址和栈大小</span><br><span class="line"></span><br><span class="line"><span class="type">LC_LOAD_DYLIB</span> 依赖库的路径，包含三方库</span><br><span class="line"></span><br><span class="line"><span class="type">LC_FUNCTION_STARTS</span> 函数起始地址表</span><br><span class="line"></span><br><span class="line"><span class="type">LC_CODE_SIGNATURE</span> 代码签名</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>Data 区主要就是负责代码和数据记录的。Mach-O 是以 Segment 这种结构来组织数据的，一个 Segment 可以包含 0 个或多个 Section。根据 Segment 是映射的哪一个 LoadCommand，Segment 中 section 就可以被解读为是是代码，常量或者一些其他的数据类型。在装载在内存中时，也是根据 Segment 做内存映射的。</li>
+</ul>
+<p><strong>方法调度方式总结：</strong></p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>调度方式</th>
+<th>extension</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>值类型</td>
+<td>静态派发</td>
+<td>静态派发</td>
+</tr>
+<tr>
+<td>类类型</td>
+<td>函数表派发</td>
+<td>静态派发</td>
+</tr>
+<tr>
+<td>NSobject子类</td>
+<td>函数表派发</td>
+<td>静态派发</td>
+</tr>
+</tbody></table>
+<h1 id="三、影响函数派发方式"><a href="#三、影响函数派发方式" class="headerlink" title="三、影响函数派发方式"></a>三、影响函数派发方式</h1><ul>
+<li><p>final： 添加了 final 关键字的函数无法被重写，使用静态派发，不会在 vtable 中出现，且 对 objc 运行时不可见。</p>
+</li>
+<li><p>dynamic: 函数均可添加 dynamic 关键字，为非objc类和值类型的函数赋予动态性，但派发方式还是函数表派发。</p>
+</li>
+<li><p>@objc： 该关键字可以将Swift函数暴露给Objc运行时，依旧是函数表派发。</p>
+</li>
+<li><p>@objc + dynamic： 消息派发的方式</p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E7%B1%BB%E4%B8%8E%E7%BB%93%E6%9E%84%E4%BD%931/" rel="prev" title="Swift第一节课类与结构体1">
+                  <i class="fa fa-chevron-left"></i> Swift第一节课类与结构体1
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/09/02/Swift%E7%AC%AC%E4%B8%80%E8%8A%82%E8%AF%BE%E5%B1%9E%E6%80%A7/" rel="next" title="Swift第一节课属性">
+                  Swift第一节课属性 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大福禄</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
