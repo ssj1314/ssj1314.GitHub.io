@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha256-xejo6yLi6vGtAjcMIsY8BHdKsLg7QynVlFMzdQgUuy8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"ssj1314.github.io","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.12.3","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="iOS - Masonry 使用中的一些整理 一般将数值类型的约束用mas_equalTo，而相对于某个控件，或者某个控件的某个约束，我会使用equalTo，如： make.size.mas_equalTo(CGSizeMake(100, 100)); make.center.equalTo(weakSelf.view); setNeedsLayout：告知页面需要更新，但是不会立刻开始更新。执行">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ios">
+<meta property="og:url" content="https://ssj1314.github.io/2023/04/13/Masonry%E4%BD%BF%E7%94%A8%E6%95%B4%E7%90%86%E5%A4%87%E5%BF%98%E5%BD%95/index.html">
+<meta property="og:site_name" content="葫芦小金刚">
+<meta property="og:description" content="iOS - Masonry 使用中的一些整理 一般将数值类型的约束用mas_equalTo，而相对于某个控件，或者某个控件的某个约束，我会使用equalTo，如： make.size.mas_equalTo(CGSizeMake(100, 100)); make.center.equalTo(weakSelf.view); setNeedsLayout：告知页面需要更新，但是不会立刻开始更新。执行">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1503437-23cdea3fdd363703.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/752/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1503437-90ff289f1bd5be50.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/750/format/webp">
+<meta property="article:published_time" content="2023-04-13T05:51:16.000Z">
+<meta property="article:modified_time" content="2023-04-13T05:58:04.895Z">
+<meta property="article:author" content="大福禄">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1503437-23cdea3fdd363703.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/752/format/webp">
+
+
+<link rel="canonical" href="https://ssj1314.github.io/2023/04/13/Masonry%E4%BD%BF%E7%94%A8%E6%95%B4%E7%90%86%E5%A4%87%E5%BF%98%E5%BD%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://ssj1314.github.io/2023/04/13/Masonry%E4%BD%BF%E7%94%A8%E6%95%B4%E7%90%86%E5%A4%87%E5%BF%98%E5%BD%95/","path":"2023/04/13/Masonry使用整理备忘录/","title":"ios"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ios | 葫芦小金刚</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">葫芦小金刚</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">宋帅杰</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">大福禄</p>
+  <div class="site-description" itemprop="description">书中自有颜如玉</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://ssj1314.github.io/2023/04/13/Masonry%E4%BD%BF%E7%94%A8%E6%95%B4%E7%90%86%E5%A4%87%E5%BF%98%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="大福禄">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="葫芦小金刚">
+      <meta itemprop="description" content="书中自有颜如玉">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="ios | 葫芦小金刚">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ios
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-04-13 13:51:16 / 修改时间：13:58:04" itemprop="dateCreated datePublished" datetime="2023-04-13T13:51:16+08:00">2023-04-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>iOS - Masonry 使用中的一些整理</p>
+<pre><code>一般将数值类型的约束用mas_equalTo，而相对于某个控件，或者某个控件的某个约束，我会使用equalTo，如：
+make.size.mas_equalTo(CGSizeMake(100, 100));
+make.center.equalTo(weakSelf.view);
+setNeedsLayout：告知页面需要更新，但是不会立刻开始更新。执行后会立刻调用layoutSubviews。
+layoutIfNeeded：告知页面布局立刻更新。所以一般都会和setNeedsLayout一起使用。如果希望立刻生成新的frame需要调用此方法，利用这点一般布局动画可以在更新布局后直接使用这个方法让动画生效。
+layoutSubviews：系统重写布局
+setNeedsUpdateConstraints：告知需要更新约束，但是不会立刻开始
+updateConstraintsIfNeeded：告知立刻更新约束
+updateConstraints：系统更新约束
+- (void)updateViewConstraints ViewController的View在更新视图布局时，会先调用ViewController的updateViewConstraints 方法。我们可以通过重写这个方法去更新当前View的内部布局，而不用再继承这个View去重写-updateConstraints方法。我们在重写这个方法时，务必要调用 super 或者 调用当前View的 -updateConstraints 方法。
+</code></pre>
+<ol>
+<li>视图居中显示</li>
+</ol>
+<p> // 防止block中的循环引用<br>__weak typeof(self) weakSelf = self;<br>UIView* view         = [UIView new];<br>view.backgroundColor = [UIColor brownColor];<br>[self.view addSubview:view];<br>//使用mas_makeConstraints添加约束<br>[view mas_makeConstraints:^(MASConstraintMaker *make) {</p>
+<pre><code>// 添加大小约束（make就是要添加约束的控件view）
+make.size.mas_equalTo(CGSizeMake(200, 200));
+
+// 添加居中约束（居中方式与self相同）
+make.center.equalTo(weakSelf.view);
+</code></pre>
+<p>}];</p>
+<ol start="2">
+<li>两个视图等宽高边距</li>
+</ol>
+<p>  UIView* blackView       = [UIView new];<br>blackView.backgroundColor = [UIColor blackColor];<br>[self.view addSubview:blackView];</p>
+<p>[blackView mas_makeConstraints:^(MASConstraintMaker *make) {<br>    //添加约束大小<br>    make.size.mas_equalTo(CGSizeMake(100, 100));<br>    //在 左,上 添加约束 (左、上约束都是20）<br>    make.left.and.top.mas_equalTo(20);<br>}];</p>
+<p>UIView* grayView         = [UIView new];<br>grayView.backgroundColor = [UIColor lightGrayColor];<br>[self.view addSubview:grayView];</p>
+<p>[grayView mas_makeConstraints:^(MASConstraintMaker *make) {<br>    // 大小、上边距约束与黑色view相同<br>    make.size.and.top.equalTo(blackView);<br>    // 添加右边距约束（这里的间距是有方向性的，左、上边距约束为正数，右、下边距约束为负数）<br>    make.right.mas_equalTo(-20);<br>}];</p>
+<ol start="3">
+<li>键盘弹出和收回</li>
+</ol>
+<ul>
+<li><p>(void)dealloc {<br>  [[NSNotificationCenter defaultCenter] removeObserver:self];<br>}</p>
+</li>
+<li><p>(void)viewDidLoad {<br>  [super viewDidLoad];<br>  // Do any additional setup after loading the view.<br>  __weak typeof(self) weakSelf = self;<br>  _textField                 = [UITextField new];<br>  _textField.backgroundColor = [UIColor redColor];<br>  [self.view addSubview:_textField];</p>
+<p>  [_textField mas_makeConstraints:^(MASConstraintMaker *make) {<br>  //left,right,centerx,y  不能共存只能有其二<br>  make.left.mas_equalTo(20);<br>  //        make.right.mas_equalTo(-60);<br>  make.centerX.equalTo(weakSelf.view);<br>  make.height.mas_equalTo(40);<br>  make.bottom.mas_equalTo(0);<br>  }];</p>
+<p>  // 注册键盘通知<br>  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillChangeFrameNotification:) name:UIKeyboardWillChangeFrameNotification object:nil];<br>  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHideNotification:) name:UIKeyboardWillHideNotification object:nil];</p>
+</li>
+</ul>
+<p>}</p>
+<ul>
+<li><p>(void)keyboardWillChangeFrameNotification:(NSNotification *)notification {</p>
+<p>  // 获取键盘基本信息（动画时长与键盘高度）<br>  NSDictionary *userInfo = [notification userInfo];<br>  CGRect rect = [userInfo[UIKeyboardFrameBeginUserInfoKey] CGRectValue];<br>  CGFloat keyboardHeight   = CGRectGetHeight(rect);<br>  CGFloat keyboardDuration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];<br>  // 修改下边距约束<br>  [_textField mas_updateConstraints:^(MASConstraintMaker *make) {<br>  make.bottom.mas_equalTo(-keyboardHeight);<br>  }];</p>
+<p>  // 更新约束<br>  [UIView animateWithDuration:keyboardDuration animations:^{<br>  [self.view layoutIfNeeded];<br>  }];</p>
+</li>
+</ul>
+<p>}</p>
+<ul>
+<li><p>(void)keyboardWillHideNotification:(NSNotification *)notification {</p>
+<p>  // 获得键盘动画时长<br>  NSDictionary *userInfo   = [notification userInfo];<br>  CGFloat keyboardDuration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];</p>
+<p>  // 修改为以前的约束（距下边距0）<br>  [_textField mas_updateConstraints:^(MASConstraintMaker *make) {<br>  make.bottom.mas_equalTo(0);<br>  }];</p>
+<p>  // 更新约束<br>  [UIView animateWithDuration:keyboardDuration animations:^{<br>  [self.view layoutIfNeeded];<br>  }];</p>
+</li>
+</ul>
+<p>}</p>
+<ul>
+<li>(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {<br>  [super touchesBegan:touches withEvent:event];<br>  [self.view endEditing:YES];<br>}</li>
+</ul>
+<ol start="4">
+<li>三控件等宽间距<br>方法一:</li>
+</ol>
+<p>array 的 mas_distributeViewsAlongAxis withFixedSpacing 变化的是控件 长度或宽度</p>
+<p>定义一个存放三个控件的数组NSArray *array;<br>array = @[greenView,redView,blueView];<br>注意:</p>
+<p>数组里面的元素不能小于2个,要不会报错 views to distribute need to bigger than one</p>
+<p>直接调用下面的方法:</p>
+<pre><code>- (void)getHorizontalone
+{
+//方法一,array 的 mas_distributeViewsAlongAxis
+/**
+ *  多个控件固定间隔的等间隔排列，变化的是控件的长度或者宽度值
+ *
+ *  @param axisType        轴线方向
+ *  @param fixedSpacing    间隔大小
+ *  @param leadSpacing     头部间隔
+ *  @param tailSpacing     尾部间隔
+ */
+//    MASAxisTypeHorizontal  水平
+//    MASAxisTypeVertical    垂直
+
+[arrayList mas_distributeViewsAlongAxis:MASAxisTypeHorizontal
+                       withFixedSpacing:20
+                            leadSpacing:5
+                            tailSpacing:5];
+[arrayList mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.top.mas_equalTo(60);
+    make.height.mas_equalTo(100);
+}];
+</code></pre>
+<p>}</p>
+<p>方法二:</p>
+<p>array de mas_distributeViewsAlongAxis withFixedItemLength 控件size不变,变化的是间隙</p>
+<pre><code>- (void)getVertical
+{
+/**
+ *  多个固定大小的控件的等间隔排列,变化的是间隔的空隙
+ *
+ *  @param axisType        轴线方向
+ *  @param fixedItemLength 每个控件的固定长度或者宽度值
+ *  @param leadSpacing     头部间隔
+ *  @param tailSpacing     尾部间隔
+ */
+[arrayList mas_distributeViewsAlongAxis:MASAxisTypeVertical
+                    withFixedItemLength:60
+                            leadSpacing:40
+                            tailSpacing:10];
+[arrayList mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.top.mas_equalTo(100);
+    //        make.height.mas_equalTo(100);
+    make.left.mas_equalTo(20);
+    make.right.mas_equalTo(-20);
+}];
+</code></pre>
+<p>}</p>
+<p>以上俩方法都在NSArray+MASAdditions中</p>
+<p>方法三:直接设置multiplier实现等间距</p>
+<p> for (NSUInteger i = 0; i &lt; 4; i++) {<br>    UIView *itemView = [self getItemViewWithIndex:i];<br>    [_containerView addSubview:itemView];</p>
+<pre><code>[itemView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.width.and.height.equalTo(@(ITEM_SIZE));
+    make.centerY.equalTo(_containerView.mas_centerY);
+    make.centerX.equalTo(_containerView.mas_right).multipliedBy(((CGFloat)i + 1) / ((CGFloat)ITEM_COUNT + 1));
+}];
+</code></pre>
+<p>}</p>
+<p>方法四: 利用透明等宽度的SpaceView实现等间距</p>
+<p>  UIView *lastSpaceView       = [UIView new];<br>lastSpaceView.backgroundColor = [UIColor greenColor];<br>[_containerView1 addSubview:lastSpaceView];</p>
+<p>[lastSpaceView mas_makeConstraints:^(MASConstraintMaker *make) {<br>    make.left.and.top.and.bottom.equalTo(_containerView1);<br>}];</p>
+<p>for (NSUInteger i = 0; i &lt; ITEM_COUNT; i++) {<br>    UIView *itemView = [self getItemViewWithIndex:i];<br>    [_containerView1 addSubview:itemView];</p>
+<pre><code>[itemView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.height.and.width.equalTo(@(ITEM_SIZE));
+    make.left.equalTo(lastSpaceView.mas_right);
+    make.centerY.equalTo(_containerView1.mas_centerY);
+}];
+
+UIView *spaceView         = [UIView new];
+spaceView.backgroundColor = [UIColor greenColor];
+[_containerView1 addSubview:spaceView];
+
+[spaceView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.left.equalTo(itemView.mas_right).with.priorityHigh(); // 降低优先级，防止宽度不够出现约束冲突
+    make.top.and.bottom.equalTo(_containerView1);
+    make.width.equalTo(lastSpaceView.mas_width);
+}];
+
+lastSpaceView = spaceView;
+</code></pre>
+<p>}</p>
+<p>[lastSpaceView mas_makeConstraints:^(MASConstraintMaker *make) {<br>    make.right.equalTo(_containerView1.mas_right);<br>}];</p>
+<ol start="5">
+<li>动态改变字体宽度</li>
+</ol>
+<p>和面方法4一样,利用spaceView来实现</p>
+<p>  UIView* bgView       = [[UIView alloc]init];<br>bgView.backgroundColor = [UIColor yellowColor];<br>[self.view addSubview:bgView];</p>
+<p>[bgView mas_makeConstraints:^(MASConstraintMaker *make) {<br>    make.left.and.right.mas_equalTo(0);<br>    make.top.mas_equalTo(@100);<br>    make.height.mas_equalTo(@100);<br>}];</p>
+<p>listText = @[@”北京”,@”地大吴波啊”,@”你大爷”,@”我们的爱哎哎”];<br>UIView <em>lastSpaceView = nil;<br>for(int i = 0 ; i &lt; listText.count;  i ++)<br>{<br>    UILabel</em> label = [UILabel new];<br>    label.text     = listText[i];<br>    label.backgroundColor = RANDOMCOLOR;<br>    [bgView addSubview:label];</p>
+<pre><code>UIView* lineView         = [UIView new];
+lineView.backgroundColor = [UIColor redColor];
+[bgView addSubview:lineView];
+
+[label mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.top.bottom.mas_equalTo(0);
+    if (lastSpaceView)
+    {
+        NSLog(@"存在 lastView");
+        make.left.equalTo(lastSpaceView.mas_right).mas_offset(@20);
+    }else
+    {
+        NSLog(@"不存在存在 lastView");
+        make.left.equalTo(bgView.mas_left);
+    }
+    make.height.equalTo(bgView);
+}];
+
+lastSpaceView = label;
+
+[lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+    make.top.and.bottom.mas_equalTo(0);
+    make.width.mas_equalTo(1);
+    make.left.mas_equalTo(label.mas_right).mas_offset(@10);
+}];
+</code></pre>
+<p>}</p>
+<p>效果图:<br><img src="https://upload-images.jianshu.io/upload_images/1503437-23cdea3fdd363703.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/752/format/webp" alt="效果图.png"><br>6. 父视图的高度,是里面俩控件高度的和</p>
+<p>  UIView* bgView       = [UIView new];<br>bgView.backgroundColor = [UIColor purpleColor];<br>[self.view addSubview:bgView];</p>
+<p>UILabel* titleLab        = [UILabel new];<br>titleLab.backgroundColor = [UIColor redColor];<br>titleLab.textAlignment   = NSTextAlignmentCenter;<br>titleLab.font            = [UIFont systemFontOfSize:15.f];<br>titleLab.text            = @”曹操——《短歌行》”;<br>[bgView addSubview:titleLab];</p>
+<p>UILabel* contentLab        = [UILabel new];<br>contentLab.numberOfLines   = 0 ;<br>contentLab.textAlignment   = NSTextAlignmentCenter;<br>contentLab.backgroundColor = [UIColor brownColor];<br>contentLab.font            = [UIFont systemFontOfSize:13.f];<br>contentLab.text            = @” 对酒当歌，人生几何？ 譬如朝露，去日苦多。\n 慨当以慷，忧思难忘。 何以解忧？唯有杜康。\n 青青子衿，悠悠我心。 但为君故，沉吟至今。\n 呦呦鹿鸣，食野之苹。 我有嘉宾，鼓瑟吹笙。\n 明明如月，何时可掇？ 忧从中来，不可断绝。\n 越陌度阡，枉用相存。 契阔谈宴，心念旧恩。\n 月明星稀，乌鹊南飞。 绕树三匝，何枝可依？\n 山不厌高，海不厌深。 周公吐哺，天下归心。”;</p>
+<p>[bgView addSubview:contentLab];<br>//思路: 父视图的上间距等于title的上间距,父视图的下间距等于content的下间距<br>__weak typeof(self) weakSelf = self;<br>[bgView mas_makeConstraints:^(MASConstraintMaker *make) {<br>    make.left.mas_offset(@30);<br>    make.right.mas_offset(@-30);<br>    make.centerY.equalTo(weakSelf.view);<br>}];</p>
+<p>[titleLab mas_makeConstraints:^(MASConstraintMaker *make) {<br>    make.left.top.right.mas_equalTo(@0);<br>}];</p>
+<p>[contentLab mas_makeConstraints:^(MASConstraintMaker *make) {<br>    make.left.right.mas_equalTo(@0);<br>    make.top.equalTo(titleLab.mas_bottom).mas_offset(@10);<br>    make.bottom.equalTo(bgView);<br>}]; </p>
+<p>效果图:<br><img src="https://upload-images.jianshu.io/upload_images/1503437-90ff289f1bd5be50.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/750/format/webp"><br>以后慢慢更新,记录方便以后使用</p>
+<br>
+文/栋飞
+
+<p>//一些扒的别人的记录<br>自适应布局允许将宽度或高度设置为固定值.如果你想要给视图一个最小或最大值,你可以这样:</p>
+<p>//width &gt;= 200 &amp;&amp; width &lt;= 400 make.width.greaterThanOrEqualTo(@200); make.width.lessThanOrEqualTo(@400)<br>约束的优先级</p>
+<p>.priority允许你指定一个精确的优先级,数值越大优先级越高.最高1000.<br>.priorityHigh等价于 UILayoutPriorityDefaultHigh .优先级值为 750.<br>.priorityMedium介于高优先级和低优先级之间,优先级值在 250~750之间.<br>.priorityLow等价于 UILayoutPriorityDefaultLow , 优先级值为 250.<br>优先级可以在约束的尾部添加:</p>
+<p>make.left.greaterThanOrEqualTo(label.mas_left).with.priorityLow();<br>make.top.equalTo(label.mas_top).with.priority(600);<br>center 中心</p>
+<p>//使 centerX和 centerY = button1<br>make.center.equalTo(button1)</p>
+<p>//使 centerX = superview.centerX - 5, centerY = superview.centerY + 10 make.center.equalTo(superview).centerOffset(CGPointMake(-5, 10))<br>指定宽度为父视图的 1/4.</p>
+<p>make.width.equalTo(superview).multipliedBy(0.25);</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/06/%E9%80%9A%E7%9F%A5%E6%80%BB%E7%BB%93/" rel="prev" title="通知总结">
+                  <i class="fa fa-chevron-left"></i> 通知总结
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大福禄</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
